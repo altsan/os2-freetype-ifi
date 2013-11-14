@@ -1,0 +1,95 @@
+#ifndef OS2_INCLUDED
+   #include <os2.h>
+#endif
+DLGINCLUDE 1 "resource.h"
+
+BITMAP IDD_SPLASH "ftifi.bmp"
+
+/* N.B. There is no need to translate the strings in this file, as they will
+ *      be superseded by the stringtable resources anyway.  They are only shown
+ *      here in order to aid readability.
+ */
+
+DLGTEMPLATE ID_MAINPROGRAM LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "FreeType/2", ID_MAINPROGRAM, 1, 1, 270, 160, NOT FS_DLGBORDER | FS_SIZEBORDER, FCF_SYSMENU | FCF_TITLEBAR | FCF_MINMAX | FCF_TASKLIST
+    BEGIN
+        NOTEBOOK        IDD_NOTEBOOK, 0, 0, 270, 160, BKS_TABBEDDIALOG | BKS_BUTTONAREA | WS_GROUP
+    END
+END
+
+DLGTEMPLATE IDD_INSTALL LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "", IDD_INSTALL, 0, 0, 260, 120, NOT FS_DLGBORDER | NOT WS_VISIBLE
+    BEGIN
+        LTEXT           "Changes will not take effect until the system is shut down and rebooted.", IDD_TXTREBOOT, 4, 106, 250, 17, DT_WORDBREAK | NOT WS_VISIBLE
+                        PRESPARAMS PP_FOREGROUNDCOLOR, 0x00A00000
+        LTEXT           "Current TrueType driver:", IDD_TXTDRIVER, 4, 33, 200, 8
+        CONTROL         "", IDD_DRIVER, 4, 3, 200, 30, WC_COMBOBOX, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        PUSHBUTTON      "OK", ID_SAVE, 0, 0, 0, 0, BS_NOTEBOOKBUTTON
+        PUSHBUTTON      "Cancel", ID_CANCEL, 0, 0, 0, 0, BS_NOTEBOOKBUTTON
+        PUSHBUTTON      "Undo", ID_RESET, 214, 103, 40, 12, BS_NOTEBOOKBUTTON
+        PUSHBUTTON      "Help", ID_HELP, 0, 0, 0, 0, BS_HELP | BS_NOTEBOOKBUTTON
+    END
+END
+
+DLGTEMPLATE IDD_CONFIG LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "", IDD_CONFIG, 0, 0, 260, 120, NOT FS_DLGBORDER | NOT WS_VISIBLE
+    BEGIN
+        LTEXT           "Changes will not take effect until the system is shut down and rebooted.", IDD_TXTREBOOT, 4, 106, 200, 17, DT_WORDBREAK | NOT WS_VISIBLE
+                        PRESPARAMS PP_FOREGROUNDCOLOR, 0x00A00000
+        GROUPBOX        "Unicode Settings", IDD_GRPUNICODE, 4, 60, 250, 53, WS_GROUP
+        AUTOCHECKBOX    "Always use Unicode encoding if available", IDD_FORCEUNICODE, 8, 94, 242, 10
+        AUTOCHECKBOX    "Use DBCS instead of Unicode for association font", IDD_EXCEPTASSOC, 8, 84, 242, 10, NOT WS_TABSTOP
+        AUTOCHECKBOX    "Use DBCS instead of Unicode for combined fonts", IDD_EXCEPTCMB, 8, 74, 242, 10, NOT WS_TABSTOP
+        AUTOCHECKBOX    "Always report Unicode fonts as MBCS-compatible", IDD_FORCEMBCS, 8, 64, 242, 10, NOT WS_TABSTOP
+        GROUPBOX        "Optional Features", IDD_GRPOPTION, 4, 4, 250, 53, WS_GROUP
+        AUTOCHECKBOX    "Fix standard style names", IDD_STYLEFIX, 8, 38, 242, 10
+        AUTOCHECKBOX    "Create simulated bold face", IDD_FAKEBOLD, 8, 28, 242, 10
+        AUTOCHECKBOX    "Optimize glyph metrics for Netscape", IDD_NETSCAPEFIX, 8, 18, 242, 10, NOT WS_TABSTOP
+        AUTOCHECKBOX    "Alias TrueType ""Times New Roman"" to ""TmsRmn""", IDD_FACENAMEALIAS, 8, 8, 242, 10, NOT WS_TABSTOP
+        PUSHBUTTON      "OK", ID_SAVE, 0, 0, 0, 0, BS_NOTEBOOKBUTTON
+        PUSHBUTTON      "Cancel", ID_CANCEL, 0, 0, 0, 0, BS_NOTEBOOKBUTTON
+        PUSHBUTTON      "Undo", ID_RESET, 214, 113, 40, 12, BS_NOTEBOOKBUTTON
+        PUSHBUTTON      "Help", ID_HELP, 0, 0, 0, 0, BS_HELP | BS_NOTEBOOKBUTTON
+    END
+END
+
+DLGTEMPLATE IDD_ADVANCED LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "", IDD_ADVANCED, 0, 0, 260, 120, NOT FS_DLGBORDER | NOT WS_VISIBLE
+    BEGIN
+        LTEXT           "Changes will not take effect until the system is shut down and rebooted.", IDD_TXTREBOOT, 4, 106, 200, 17, DT_WORDBREAK | NOT WS_VISIBLE
+                        PRESPARAMS PP_FOREGROUNDCOLOR, 0x00A00000
+        GROUPBOX        "Advanced Settings", IDD_GRPADVANCED, 4, 4, 250, 36, WS_GROUP
+        LTEXT           "Open font cache size:", IDD_TXTCACHE, 8, 22, 130, 8, DT_VCENTER
+                        PRESPARAMS PP_FOREGROUNDCOLORINDEX, SYSCLR_WINDOWTEXT
+        SPINBUTTON      IDD_MAXOPEN, 140, 22, 36, 12, SPBS_MASTER | SPBS_NUMERICONLY | SPBS_JUSTRIGHT | WS_GROUP
+        LTEXT           "Interface resolution:", IDD_TXTRESOLUTION, 8, 10, 130, 8, DT_VCENTER
+                        PRESPARAMS PP_FOREGROUNDCOLORINDEX, SYSCLR_WINDOWTEXT
+        SPINBUTTON      IDD_INTERFACEDPI, 140, 10, 36, 12, SPBS_MASTER | SPBS_READONLY | SPBS_JUSTRIGHT | WS_GROUP
+        LTEXT           "fonts", IDD_TXTFONTS, 179, 22, 41, 8, DT_VCENTER
+                        PRESPARAMS PP_FOREGROUNDCOLORINDEX, SYSCLR_WINDOWTEXT
+        LTEXT           "dpi", IDD_TXTDPI, 179, 10, 41, 8, DT_VCENTER
+                        PRESPARAMS PP_FOREGROUNDCOLORINDEX, SYSCLR_WINDOWTEXT
+        PUSHBUTTON      "OK", ID_SAVE, 0, 0, 0, 0, BS_NOTEBOOKBUTTON
+        PUSHBUTTON      "Cancel", ID_CANCEL, 0, 0, 0, 0, BS_NOTEBOOKBUTTON
+        PUSHBUTTON      "Undo", ID_RESET, 214, 103, 40, 12, BS_NOTEBOOKBUTTON
+        PUSHBUTTON      "Help", ID_HELP, 0, 0, 0, 0, BS_HELP | BS_NOTEBOOKBUTTON
+    END
+END
+
+DLGTEMPLATE IDD_ABOUT LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "", IDD_ABOUT, 0, 0, 260, 120, NOT FS_DLGBORDER | NOT WS_VISIBLE
+    BEGIN
+        CONTROL         IDD_SPLASH, -1, 4, 40, 200, 100, WC_STATIC, SS_BITMAP | WS_VISIBLE
+        LTEXT           "FreeType/2 Configuration", IDD_TXTPROGRAM, 4, 28, 220, 8
+        LTEXT           "Version XXXX", IDD_TXTVERSION, 4, 19, 100, 8
+        LTEXT           "¸ 2010,2012 Alex Taylor", IDD_TXTCOPYRIGHT, 4, 4, 220, 8
+        PUSHBUTTON      "OK", ID_SAVE, 0, 0, 0, 0, BS_NOTEBOOKBUTTON
+        PUSHBUTTON      "Cancel", ID_CANCEL, 0, 0, 0, 0, BS_NOTEBOOKBUTTON
+        PUSHBUTTON      "Help", ID_HELP, 0, 0, 0, 0, BS_HELP | BS_NOTEBOOKBUTTON
+    END
+END

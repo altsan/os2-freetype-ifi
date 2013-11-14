@@ -1,0 +1,9 @@
+*.dll
+*.exe
+*.hlp
+*.obj
+*.res
+*.map
+*.sym
+*.log
+legacy/bkp

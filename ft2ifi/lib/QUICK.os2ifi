@@ -1,0 +1,24 @@
+QUICK SETUP & BUILD INSTRUCTIONS
+
+  1. Copy 'builds\os2\os2-ifi.mk' to 'config.mk' in the top-level directory.
+  2. Create the 'ifi' subdirectory.
+  3. Copy 'builds\os2\ft2build.h.ifi' to 'ifi/ft2build.h'
+  4. Add the fully-qualified path of the 'ifi' subdirectory to the front of
+     your C_INCLUDE_PATH environment variable.
+  5. Run 'make' from the top-level directory.
+
+  You should end up with the file 'freetype.lib'.  Make sure this file is 
+  where the FT2IFI Makefile is looking for it (the 'FTLIB' variable).
+
+
+QUICK FREETYPE RESYNC INSTRUCTIONS
+
+  Add builds\os2\ifisystem.c
+  Add builds\os2\os2-ifi.mk
+  Add builds\os2\ft2build.h.ifi
+  Add builds\os2\ifimodule.h (modify from include/freetype/config/ft2module.h)
+  Add builds\os2\ifioption.h (modify from include/freetype/config/ftoption.h)
+  Update builds\os2\detect.mk with new section for os2-ifi.mk
+  Update builds\compiler\visualage.mk with modified compiler switches.
+
+

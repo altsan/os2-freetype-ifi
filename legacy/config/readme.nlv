@@ -1,0 +1,49 @@
+NOTES FOR TRANSLATORS
+
+Requirements (from the IBM OS/2 toolkit): 
+ - nmake32.exe (Make facility)
+ - rc.exe (resource compiler)
+ - ipfc.exe (Information Presentation Facility (help) compiler)
+
+To translate FTCONFIG.EXE:
+ a. Edit resource.rc and add copies of all the English (or other existing 
+    language) STRINGTABLE definitions.  
+ b. For the newly added lines, change the ID_BASE_EN prefix to one of the 
+    following, according to the language you are adding:
+      ID_BASE_EN  - English            
+      ID_BASE_RU  - Russian            
+      ID_BASE_NL  - Dutch              
+      ID_BASE_FR  - French             
+      ID_BASE_IT  - Italian            
+      ID_BASE_SV  - Swedish            
+      ID_BASE_DE  - German             
+      ID_BASE_JA  - Japanese           
+      ID_BASE_KO  - Korean             
+      ID_BASE_CN  - Simplified Chinese 
+      ID_BASE_TW  - Traditional Chinese
+    NOTE: ONLY the above are currently supported.  If you want to add a language
+    that is not listed here, FTCONFIG.EXE itself will need to be modified; in 
+    this case, please contact the developer (alex@altsan.org).
+ c. Translate the strings in your new section as appropriate.
+ d. Make sure ftconfig.exe is in the current directory, and run:
+      nmake32 -f Makefile.nlv 
+    If you get error messages, you may have to specify the -cp and/or -cc
+    switches (see the Resource Compiler documentation).
+
+ Note: you do not have to translate the contents of resource.dlg; the strings 
+       in this file are for reference only and are not actually used.
+
+
+To translate FTCONFIG.HLP:
+ a. Edit Makefile.nlv and change the NLV= definition near the top to a suitable
+    value for your language.
+ b. Copy ftconfig_en.ipf to ftconfig_xx.ipf (where xx is the new value for NLV,
+    above).
+ c. Translate the text in ftconfig_xx.ipf to your satisfaction.
+ d. Run:
+      nmake32 -f Makefile.nlv ftconfig.hlp
+    If you get error messages, you may have to specify the -C, -D and/or -L
+    switches (see the IPFC documentation).
+
+In both cases, please send your translated source files to alex@altsan.org so 
+that they can be included with the FTCONFIG source code.

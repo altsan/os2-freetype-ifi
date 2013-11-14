@@ -1,0 +1,355 @@
+ENCODING HEURISTICS IN FREETYPE/2
+
+PART I - GLYPHLISTS AND FONT ENCODING
+
+The OS/2 font-rendering logic (part of the GRE/GPI layer) uses a "glyphlist" to 
+retrieve the desired character glyph from a font.  This is essentially a look-up
+table which is maintained by the font driver and passed to GPI.  It is important
+that GPI knows the correct glyphlist for a given font, so that the maximum range
+of characters can be found correctly.
+
+GRE/GPI supports the following glyphlists as of OS/2 4.5x: 
+   "PM383"   - Native OS/2 font; glyphs are indexed by Extended UGL codepoint
+   "PMUGL"   - Either an alias for PM383, or possibly an updated version of it
+   "UNICODE" - Unicode font; glyphs are indexed by UCS codepoint
+   "PMJPN"   - Japanese font; glyphs are indexed by Extended UGL up to codepoint
+               949, and Shift-JIS codepoint for all higher values
+   "PMKOR"   - Korean font; glyphs are indexed by Extended UGL up to codepoint
+               949, and Wansung/KSC codepoint for all higher values
+   "PMCHT"   - Traditional Chinese font; glyphs are indexed by Extended UGL up 
+               to codepoint 949, and Big-5 codepoint for all higher values
+   "PMPRC"   - Simplified Chinese font; glyphs are indexed by Extended UGL up 
+               to codepoint 949, and GB-2312 codepoint for all higher values
+   "SYMBOL"  - Not documented, but apparently equivalent to ""
+   ""        - Passthrough font; no indexing is done by GPI (the application
+               is assumed to know the correct glyph index within the font file)
+
+The equivalent index table within the actual TrueType font file is called the
+'cmap' table.  There is not always a 1:1 correspondence between a cmap and an 
+OS/2-compatible glyphlist, which means that the font driver may have to do some 
+conversion.  In addition, many (if not most) fonts contain multiple cmaps, 
+leaving it up to the font driver to choose the best one.
+
+(Note that the actual physical ordering of the various glyphs within a font 
+file is arbitrary, and could in theory be completely random.  This is why the
+cmap is essential for character lookup.)
+
+The general logic for passing a character to the application therefore looks 
+something like the following:
+  [font file](cmap)---> [font driver](glyphlist)---> [GRE/GPI]---> application
+
+The following points should be noted with respect to fonts using UNICODE:
+ - Use of the UNICODE glyphlist may have a higher processing overhead, at
+   least (or especially) if the DBCS/MBCS flags are set.
+ - If the font has either (or both) of the DBCS and MBCS flags set, font
+   association (see below) will not work when using that font for normal
+   text.
+ - If the font does not have either of the DBCS or MBCS flags set, many
+   characters outside the basic ASCII range (in particular, graphic characters)
+   will not display under any codepage.
+
+The following points should also be noted with respect to the use of DBCS 
+"font association" (via PM_AssociateFont) under Presentation Manager:
+ - Only a font using one of the CJK (Chinese/Japanese/Korean) glyphlists (not
+   UNICODE) may be used for font association.
+ - If font association is in effect, only a font using the UNICODE glyphlist
+   will be capable of rendering text under one of the Unicode codepages 
+   (1200/1207/1208) via PM or GPI functions.  (For unknown reasons, this
+   limitation only appears when font association is enabled.)
+
+When reading a TrueType font, the FreeType/2 installable font driver (IFI), 
+FREETYPE.DLL, uses some fairly complex logic to determine the best glyphlist 
+to pass to GPI (generating it from the cmap via a conversion process if 
+necessary).  A rough overview of this logic is provided below for each major
+version.
+
+First, some common definitions.  FreeType/2 defines the following encoding
+schemes:
+
+TRANSLATE_UGL:
+  Font has a Unicode cmap; convert the cmap indices to UGL and set the GPI 
+  glyphlist to "PM383".
+
+TRANSLATE_UNICODE:
+  Font has a Unicode cmap; do not perform any conversion and report the 
+  glyphlist to GPI as "UNICODE".
+
+TRANSLATE_UNI_SJIS:    
+TRANSLATE_UNI_BIG5:    
+TRANSLATE_UNI_GB2312:  
+TRANSLATE_UNI_WANSUNG: 
+  Font has a Unicode cmap, but contains support for one (and only one) of these
+  specific CJK character sets; convert the cmap indices accordingly (using the
+  appropriate codepage table), and set the GPI glyphlist to "PMJPN"/"PMCHT"/
+  "PMPRC"/"PMKOR".
+
+TRANSLATE_SYMBOL:
+  Font is a symbol font; do not perform any conversion and report the glyphlist
+  to GPI as "SYMBOL".
+
+TRANSLATE_SJIS:
+TRANSLATE_BIG5:
+TRANSLATE_GB2312:
+TRANSLATE_WANSUNG:
+  Font has one of these CJK cmaps; do not perform any conversion and report 
+  the glyphlist to GPI as "PMJPN"/"PMCHT"/"PMPRC"/"PMKOR".
+
+Fallback logic (a.k.a. "none of the above"):
+  Do not perform any conversion but set the GPI glyphlist to "PM383".  The font
+  is therefore assumed to have a UGL-compatible cmap.  Obviously, this is not a
+  very desirable option, and should only be used as the last resort.
+
+
+Version 1.0 and 1.10 (by Michal Necasek)
+
+  In these versions, the general objective seems to be to avoid using the
+  UNICODE glyphlist whenever possible, apparently due to concerns about the
+  overhead.
+
+  - DBCS_LIMIT is a number defined as 1024 (v1.0) or 2048 (1.10).
+
+  - If the font has a Unicode cmap AND more than DBCS_LIMIT characters, use 
+    TRANSLATE_UNI_xxx if applicable, or TRANSLATE_UNICODE otherwise.
+
+  - If the font doesn't have a Unicode cmap, or has a Unicode cmap but contains
+    fewer than DBCS_LIMIT characters, then:
+      - If the font has an Apple Roman cmap, use TRANSLATE_SYMBOL.
+      - If the font has a CJK cmap, use the corresponding TRANSLATE_xxx.
+      - If all else fails, use the fallback logic.
+
+
+Version 1.2x (by KO Myung-hun)
+
+  This version provides a registry-settable flag by which the user can force the
+  UNICODE glyphlist to always be used, if possible.  
+
+  When the above flag is not set, some extra processing has been added to give 
+  priority to use of the PMJPN/PMPRC/PMCHT/PMKOR glyphlists when the OS/2
+  country code is set to one of these locales.
+
+  The overall logic is:
+
+  - AT_LEAST_DBCS_GLYPH is a number defined as 3072.
+
+  - If the font has a Unicode cmap and the 'force Unicode' flag is set, use
+    TRANSLATE_UNICODE.
+
+  - Otherwise, if the font has a Unicode cmap AND more than AT_LEAST_DBCS_GLYPH
+    characters:
+     - If the system country code is set to a CJK locale, and the font contains
+       a particular character for that CJK language, OR if the font has a CJK
+       cmap, then use the corresponding TRANSLATE_UNI_xxx.
+     - Otherwise, use TRANSLATE_UNICODE.
+
+  - If the font doesn't have a Unicode cmap, or has a Unicode cmap but contains
+    fewer than AT_LEAST_DBCS_GLYPH characters, then:
+     - If the font has an Apple Roman cmap, use TRANSLATE_SYMBOL.
+     - If the font has a CJK cmap, use the corresponding TRANSLATE_xxx.
+     - If all else fails, use the fallback logic.
+
+  There is one other major difference in this version: when a font uses the
+  UNICODE glyphlist, it does not set the flags in the font metrics which
+  indicate 'MBCS' or 'DBCS' support, unless the font contains at least
+  AT_LEAST_DBCS_GLYPH glyphs.  This is contrary to the default behaviour in
+  version 1.0/1.10, as well as in the original TRUETYPE.DLL from IBM.  (See
+  the notes earlier in this file for the implications.)
+
+
+PART II - NAME LOOKUP AND ENCODING
+
+Every TrueType font has a 'name' table which contains strings that describe
+the font.  The term 'name' is a bit misleading because the entries in this
+table include not only the literal font names, but also things like the
+copyright message, license text, and various other things.  
+
+FreeType/2 searches the name table in order to determine the font family name
+(e.g. "Arial") and the font face name (e.g. "Arial Bold Italic").
+
+The contents of the names table may be encoded in a number of different ways,
+and/or provided in several languages.  As with cmaps, it is incumbent on the
+font driver to choose the best name out of those available to present to the
+operating system.
+
+FreeType/2 searches for font family and face names using the following logic.
+
+Version 1.0 and 1.10 (by Michal Necasek)
+
+  This version looks for a name matching any of these criteria:
+    - Unicode-encoded, English language
+    - Unicode-encoded, CJK language
+    - Native-DBCS encoding, CJK language
+  and takes the first one found.  Unfortunately, there is a major weakness in 
+  how these names are passed to GPI: if the name is Unicode-encoded, FreeType/2
+  simply strips out the high-order bytes and treats the remainder as ASCII.  
+  This works acceptably well if the font name is pure ASCII, but it causes names
+  containing non-ASCII characters to be mangled into unintelligibility.
+
+Version 1.2x (by KO Myung-hun)
+
+  The logic is somewhat more intelligent in this version.  However, it still
+  does not accept names in languages other than English, Chinese, Japanese, or
+  Korean.
+
+  The logic is:
+    - If a Microsoft-platform CJK Unicode name which matches the current system
+      codepage is found, use that.
+    - Otherwise, if an English Unicode name, or a native DBCS-encoded CJK name
+      is found, use the first one found.  In the former case, assume that it is
+      ASCII-encoded Unicode, and strip out all high-order bytes.  This logic is
+      theoretically vulnerable to the same flaw as above, except that it is only
+      applied to names that are reported as English-language (and English font
+      names do not usually contain non-ASCII characters).
+    - Otherwise, as a fallback, if there are any Microsoft-platform CJK Unicode
+      names, simply take the first one (of any language) found, regardless of the
+      current system codepage.
+
+  Later updates in KO Myung-hun's code (not included in any public FreeType/2 
+  v1.2x release) have replaced the above with much cleaner logic:
+    - Search for a Microsoft-platform Unicode name, in order of preference:
+        - A CJK language name that matches the current system codepage
+        - A US-English name
+        - The first name found
+      For CJK names, convert to the appropriate predetermined DBCS codepage.  
+      For any other language, convert it to the current process codepage.
+    - If no Microsoft-platform Unicode name was found, search for a Microsoft-
+      platform name under other encodings.  If a CJK language name that matches
+      the current system codepage is found, OR if a symbol encoding was found,
+      select it and return the string verbatim.
+
+
+PART III - CHANGES FOR VERSION 1.3x
+
+1. In order to avoid the problem of Unicode fonts not being usable for DBCS 
+   font association, any font which is currently defined as PM_AssociateFont is
+   automatically detected on DLL initialization.  Rather than being assigned a
+   glyphlist of UNICODE, it is assigned the appropriate CJK DBCS glyphlist 
+   instead (some heuristics are necessary to determine the correct one).
+
+   It should be noted that turning off Unicode support for the font will (of
+   course) render any characters outside that particular CJK character set 
+   inaccessible.  This is unlikely to be a problem if the font is a dedicated
+   CJK font to begin with, but the documentation should discourage the user
+   from using pan-Unicode fonts (like Times New Roman MT 30/WT xx) for font
+   association.
+
+   This behaviour is configurable via the INI file (see below), although it
+   defaults to enabled.
+
+2. Given the myriad and highly subjective advantages/disadvantages of using the
+   UNICODE glyphlist, the user should be given more control over the selection
+   logic, via INI file settings.  (These should preferably be configurable 
+   through some kind of GUI.)
+
+   For the current release, these additional settings have been added under the
+   "FreeType/2" application in OS2.INI:
+
+   Set_Unicode_MBCS - INT (0 | 1)
+     1:  Always report UNICODE fonts as DBCS- and MBCS-capable.  This allows
+         support for SBCS graphics characters, but means that font association
+         will not work with text rendered in this font.  This is the behaviour 
+         of IBM's TRUETYPE.DLL, and earlier versions of FreeType/2.
+     0:  Only report a Unicode font as DBCS-capable if it contains more
+         than AT_LEAST_DBCS_GLYPHS glyphs.  This allows font association 
+         to work in conjunction with this font, but breaks the rendering
+         of many SBCS graphic characters (apparently due to a bug in GPI).
+         This is the behaviour of FreeType/2 as of version 1.2x.
+   Default: 1
+   The reason this needs to be easily switchable is because the best behaviour
+   is likely to be different depending on the environment.  1 (report as MBCS)
+   would almost certainly be the most useful setting on systems which are not
+   likely to use font association (most SBCS systems).  However, on DBCS
+   systems, 0 might be more more useful as it allows font association to work
+   more effectively.
+
+   Force_DBCS_Association - INT (0 | 1)
+     1:  Never use the UNICODE glyphlist for the font currently in use as the PM
+         DBCS "association" (glyph substitution) font, but assign a suitable DBCS
+         glyphlist instead (as outlined above).
+     0:  Ignore the current association font settings when determining the 
+         glyphlist for each font.  (This corresponds to the behaviour of all
+         prior versions of FreeType/2.)
+   Default: 1
+
+   Force_DBCS_Combined - INT (0 | 1)       <-- Added in version 1.3.2
+     1:  Never use the UNICODE glyphlist for any font which is listed in OS2.INI
+         PM_ABRFiles (that is, forwarded to a "combined" font wrapper), but
+         assign a suitable DBCS glyphlist instead (as outlined above).
+     0:  Ignore the defined combined fonts when determining glyphlists.  (This
+         corresponds to the behaviour of all prior versions of FreeType/2.)
+   Default: 1
+
+   Some additional settings are under consideration; see the PROPOSALS section
+   below.
+
+3. The name-selection logic has been tweaked somewhat.  First, 932 and 942 are
+   now recognized as Japanese codepages, and 1386 is recognized as a Simplified
+   Chinese codepage.
+
+   Second, a simple (and not-very-intelligent) sanity check was added to make 
+   sure that a reported DBCS-encoded name string actually is in the reported
+   DBCS encoding, and not in Unicode.  This is mainly a workaround for some of
+   the Japanese system fonts included as part of OS/2 Warp-J (RF*.TTF), which
+   inexplicably put Unicode-encoded strings under the Shift-JIS encoding flag.
+
+4. As of version 1.31, the FdQueryFullFaces API has been implemented.  This
+   enables use of the GpiQueryFullFontNames function with TrueType fonts.
+
+5. Various bugfixes and other tweaks have been made.
+
+
+PART IV - FUTURE PROPOSALS 
+
+1. In accordance with the goal of providing better control over how fonts are
+   assigned the UNICODE glyphlist, some more INI file settings might be
+   considered.
+
+   Use_Unicode_Encoding (modified behaviour) - INT
+     2:  Always use UNICODE for Unicode fonts.  This is the current behaviour 
+         when Use_Unicode_Encoding==TRUE
+     1:  Always use UNICODE, unless TRANSLATE_UNI_SJIS, TRANSLATE_UNI_BIG5, 
+         TRANSLATE_UNI_GB2312, or TRANSLATE_UNI_WANSUNG is indicated (in which
+         case, use the corresponding DBCS glyphlist).  This is basically the
+         current behaviour when Use_Unicode_Encoding==FALSE (as per value 0) 
+         but without the AT_LEAST_DBCS_GLYPHS condition.
+     0:  Only use Unicode if the font contains at least AT_LEAST_DBCS_GLYPHS
+         glyphs, and the font is not TRANSLATE_UNI_xxx (as per value 1).  This 
+         is the current behaviour when Use_Unicode_Encoding==FALSE.
+    Recommended default: 2
+    Some day it may also be desirable to add another value (e.g. 3) which causes
+    FreeType/2 to actually generate a UNICODE glyphlist from a non-Unicode cmap;
+    essentially converting a non-Unicode font into a Unicode one via simulation.
+    But this is not a short-term objective.
+
+    <font filename> - DWORD
+    Allow flags to be set for specific fonts.  At present, one flag should be
+    supported: cause UNICODE to be always used for this specific font, 
+    regardless of the current setting of Use_Unicode_Encoding.
+    (In practise, it would only be meaningful if Use_Unicode_Encoding < 2.)
+    Recommended default: none
+
+2. The name-lookup logic could still be refined in some ways.  
+
+   Other languages besides Chinese/Japanese/Korean or English could possibly 
+   be accepted.
+
+3. Allow use of the 'PostScript' name of the font as a last-ditch fallback for
+   both the family and face names.  Obviously this is not ideal, as it would
+   cause all variations (bold, italic, etc.) to appear as entirely separate
+   fonts to the operating system.  But as fall-back logic it may be acceptable,
+   although it should be subjected to as much testing and feedback as possible.
+   (This feature is under consideration mainly to cope with these Japanese fonts
+   from Epson:
+   http://www.i-love-epson.co.jp/download2/printer/driver/win/page/ttf30.htm )
+   Ideally, this should be a configurable per-font option, set via the DWORD
+   INI flag described above.
+
+4. Non-CJK fonts which are not Unicode compatible should be supported a bit more
+   intelligently.  At present, they generally seem to be rejected; the proper
+   behaviour should probably be to fall back to SYMBOL encoding (which basically
+   maps each glyph index to a physical position in the font file and lets the 
+   application worry about whether it's correct or not).
+
+5. Other TODOs:
+    - Implement UDC (User-Defined Character) support for DBCS systems.
+    - Allow specific fonts to be renamed or at least aliased to work around
+      name-resolution problems with particular fonts or font families.

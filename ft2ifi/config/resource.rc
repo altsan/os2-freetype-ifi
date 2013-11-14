@@ -1,0 +1,145 @@
+#include <os2.h>
+#include "resource.h"
+
+ICON ID_MAINPROGRAM   "ft2gui.ico"
+
+
+/********************
+ * ENGLISH MESSAGES
+ */
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_EN + IDS_PROGRAM_TITLE)            "FreeType/2 Configuration"
+    (ID_BASE_EN + IDS_PAGE_DRIVER)              "~Driver"
+    (ID_BASE_EN + IDS_PAGE_SETTINGS)            "~Settings"
+    (ID_BASE_EN + IDS_PAGE_ABOUT)               "~About"
+    (ID_BASE_EN + IDS_PAGE_1OF2)                "Page 1 of 2"
+    (ID_BASE_EN + IDS_PAGE_2OF2)                "Page 2 of 2"
+    (ID_BASE_EN + IDS_TRUETYPEDLL_DESC)         "TRUETYPE.DLL (IBM TrueType IFI)"
+    (ID_BASE_EN + IDS_FREETYPEDLL_DESC)         "FREETYPE.DLL (FreeType IFI)"
+    (ID_BASE_EN + IDS_MESSAGE_REBOOT)           "Changes will not take effect until the system is shut down and rebooted."
+END
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_EN + IDS_ERRT_GEN)                 "Error"
+    (ID_BASE_EN + IDS_ERROR_NOTEBOOK)           "Error populating notebook. The program cannot continue."
+    (ID_BASE_EN + IDS_ERRT_NOTFOUND)            "FREETYPE.DLL Not Found"
+    (ID_BASE_EN + IDS_ERROR_NOTFOUND)           "%s was not found. Do you wish to specify another path?"
+END
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_EN + IDS_BTN_OK)                   "~OK"
+    (ID_BASE_EN + IDS_BTN_CANCEL)               "~Cancel"
+    (ID_BASE_EN + IDS_BTN_HELP)                 "~Help"
+    (ID_BASE_EN + IDS_BTN_RESET)                "~Undo"
+END
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_EN + IDS_CTL_CURRENT_DRIVER)       "Current TrueType font driver:"
+    (ID_BASE_EN + IDS_CTL_UNICODE_SETTINGS)     "Unicode Settings"
+    (ID_BASE_EN + IDS_CTL_FORCEUNICODE)         "Always use Unicode encoding if available"
+    (ID_BASE_EN + IDS_CTL_FORCEMBCS)            "Always report Unicode fonts as MBCS-compatible"
+    (ID_BASE_EN + IDS_CTL_EXCEPTASSOC)          "Use DBCS instead of Unicode for association font"
+    (ID_BASE_EN + IDS_CTL_EXCEPTCMB)            "Use DBCS instead of Unicode for combined fonts"
+    (ID_BASE_EN + IDS_CTL_OPTIONAL_FEATURES)    "Optional Features"
+    (ID_BASE_EN + IDS_CTL_FAKEBOLD)             "Create simulated bold face for DBCS fonts"
+    (ID_BASE_EN + IDS_CTL_STYLEFIX)             "Fix standard style names"
+    (ID_BASE_EN + IDS_CTL_NETSCAPEFIX)          "Optimize glyph metrics for Netscape"
+    (ID_BASE_EN + IDS_CTL_FACENAMEALIAS)        "Alias TrueType ""Times New Roman"" to ""TmsRmn"""
+    (ID_BASE_EN + IDS_CTL_ADVANCED_SETTINGS)    "Advanced Settings"
+    (ID_BASE_EN + IDS_CTL_TXTCACHE)             "Open face cache size:"
+    (ID_BASE_EN + IDS_CTL_TXTRESOLUTION)        "Instance resolution:"
+    (ID_BASE_EN + IDS_CTL_TXTFONTS)             "fonts"
+    (ID_BASE_EN + IDS_CTL_TXTDPI)               "dpi"
+    (ID_BASE_EN + IDS_CTL_TXTVERSION)           "Version %s"
+    (ID_BASE_EN + IDS_CTL_TXTCOPYRIGHT)         "%s Alex Taylor"
+END
+
+
+/********************
+ * JAPANESE MESSAGES
+ */
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_JA + IDS_PROGRAM_TITLE)            "FreeType/2 環境設定"
+    (ID_BASE_JA + IDS_PAGE_DRIVER)              "ﾄﾞﾗｲﾊﾞｰ (D )"
+    (ID_BASE_JA + IDS_PAGE_SETTINGS)            "設定 (S )"
+    (ID_BASE_JA + IDS_PAGE_ABOUT)               "製品情報 (A )"
+    (ID_BASE_JA + IDS_PAGE_1OF2)                "ペ－ジ 1/2"
+    (ID_BASE_JA + IDS_PAGE_2OF2)                "ペ－ジ 2/2"
+    (ID_BASE_JA + IDS_TRUETYPEDLL_DESC)         "TRUETYPE.DLL (IBM TrueType IFI)"
+    (ID_BASE_JA + IDS_FREETYPEDLL_DESC)         "FREETYPE.DLL (FreeType IFI)"
+    (ID_BASE_JA + IDS_MESSAGE_REBOOT)           "Changes will not take effect until the system is shut down and rebooted."
+END
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_JA + IDS_ERRT_GEN)                 "エラー"
+    (ID_BASE_JA + IDS_ERROR_NOTEBOOK)           "Error populating notebook. The program cannot continue."
+    (ID_BASE_JA + IDS_ERRT_NOTFOUND)            "FREETYPE.DLL ではありません"
+    (ID_BASE_JA + IDS_ERROR_NOTFOUND)           "%s was not found. Do you wish to specify another path?"
+END
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_JA + IDS_BTN_OK)                   "了解 (O )"
+    (ID_BASE_JA + IDS_BTN_CANCEL)               "取消 (C )"
+    (ID_BASE_JA + IDS_BTN_HELP)                 "ﾍﾙﾌﾟ (H )"
+    (ID_BASE_JA + IDS_BTN_RESET)                "ｱﾝﾄﾞｩ (U )"
+END
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_JA + IDS_CTL_CURRENT_DRIVER)       "選択された TrueType のフォント・ドライバー:"
+    (ID_BASE_JA + IDS_CTL_UNICODE_SETTINGS)     "Unicode 設定"
+    (ID_BASE_JA + IDS_CTL_FORCEUNICODE)         "できれば Unicode をいつも使う"
+    (ID_BASE_JA + IDS_CTL_FORCEMBCS)            "Always report Unicode fonts as MBCS-compatible"
+    (ID_BASE_JA + IDS_CTL_EXCEPTASSOC)          "関連付けのフォントの場合 DBCS の文字符号化法を使う"
+    (ID_BASE_JA + IDS_CTL_EXCEPTCMB)            "ABR フォントの場合 DBCS の文字符号化法を使う"
+    (ID_BASE_JA + IDS_CTL_OPTIONAL_FEATURES)    "要否な環境設定"
+    (ID_BASE_JA + IDS_CTL_FAKEBOLD)             "DBCS フォントの場合フェイク・ボ－ルドを作り出す"
+    (ID_BASE_JA + IDS_CTL_STYLEFIX)             "Fix standard style names"
+    (ID_BASE_JA + IDS_CTL_NETSCAPEFIX)          "Netscape のためにフォント・メットリックを変更する"
+    (ID_BASE_JA + IDS_CTL_FACENAMEALIAS)        "TrueType の「Times New Roman」に「TmsRmn」の異名を表す"
+    (ID_BASE_JA + IDS_CTL_ADVANCED_SETTINGS)    "アドバンスド設定"
+    (ID_BASE_JA + IDS_CTL_TXTCACHE)             "フェース・キャッシュ・サイズ："
+    (ID_BASE_JA + IDS_CTL_TXTRESOLUTION)        "解像度："
+    (ID_BASE_JA + IDS_CTL_TXTFONTS)             "フォント"
+    (ID_BASE_JA + IDS_CTL_TXTDPI)               "dpi"
+    (ID_BASE_JA + IDS_CTL_TXTVERSION)           "ヴァージョン %s"
+    (ID_BASE_JA + IDS_CTL_TXTCOPYRIGHT)         "%s Alex Taylor"
+END
+
+
+HELPTABLE ID_MAINPROGRAM
+BEGIN
+    HELPITEM ID_MAINPROGRAM, HSTB_MAIN,         100
+    HELPITEM IDD_INSTALL,    HSTB_INSTALL,      110
+    HELPITEM IDD_CONFIG,     HSTB_SETTINGS1,    120
+    HELPITEM IDD_ADVANCED,   HSTB_SETTINGS2,    130
+    HELPITEM IDD_ABOUT,      HSTB_MAIN,         100
+END
+
+HELPSUBTABLE HSTB_MAIN
+BEGIN
+END
+
+HELPSUBTABLE HSTB_INSTALL
+BEGIN
+END
+
+HELPSUBTABLE HSTB_SETTINGS1
+BEGIN
+END
+
+HELPSUBTABLE HSTB_SETTINGS2
+BEGIN
+END
+
+RCINCLUDE "resource.dlg"
+

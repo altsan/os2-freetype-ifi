@@ -1,0 +1,53 @@
+이 파일은 FreeType/2 OS/2 글꼴 드라이버 소스 코드에 대한 설명 파일입니다.
+Copyright (C) 1997-1998 Michal Necasek (mike@mendelu.cz).
+Copyright (C) 2003-2004 서현태 (acrab001@hitel.net)
+Copyright (C) 2002-2007 고명훈 (komh@chollian.net)
+Copyright (C) 2010-2011 Alex Taylor (alex @ altsan . org)
+
+이 패키지에는 다음과 같은 파일이 있습니다.
+
+  readme.1st     소스 코드 영문 설명 파일
+
+  read1st.kor    지금 보고 있는 파일
+  
+  DEVELFAQ       FreeType/2 개발자 FAQ. 영문. 컴파일하기 전에 읽으십시오.
+
+  ifi/           FreeType/2 글꼴 드라이버의 소스 코드
+
+
+
+  config/        ftconfig.exe 소스 코드에 
+
+  lib/           FreeType 1.3.1 의 파일들
+
+
+  docs/          문서
+
+
+다음은 소스를 컴파일하는 방법입니다.
+
+우선, 소스를 컴파일하기 위해서는 VACPP 3.0.8 이 필요합니다. 
+  
+1. lib 디렉토리에 가서 다음을 실행합니다.
+  
+      nmake -f arch\os2\makefile.icc  
+      
+2. ifi 디렉토리에 가서 다음을 실행합니다.
+  
+      nmake -f freetype.icc        
+      
+   컴파일이 끝나고 나면, FreeType.DLL 만들어집니다. 이 파일을 'ftos2' 
+   디렉토리에 복사합니다.
+  
+3. install.cmd 를 실행시키고, 모든 프로그램들을 닫고 재부팅합니다.
+  
+4. 데스크탑 화면이 나타나면 글꼴 팔레트를 이용하여 원하는 글꼴들을 설치하면 
+   됩니다.   
+     
+5. 메모리 사용량을 표시해주는 ftmem.c 를 컴파일할 수 있습니다.
+  
+      nmake -f ftmem.icc
+      
+   컴파일 후 실행시키면, 글꼴 드라이버가 사용하고 있는 메모리양을 나타내는 
+   작은 창이 나타납니다.
+       

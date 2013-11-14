@@ -1,0 +1,41 @@
+GENERAL
+
+  References to 'WPOS' and 'WPOS OS/2 2.1' may be disregarded throughout.
+
+
+PAGE 2
+
+  ulDeviceCaps     This field indicates the version of the IFIMETRICS structure
+                   supported by the driver.  0 indicates the default IFIMETRICS
+                   structure.  1 indicates an extended version of IFIMETRICS
+                   (sometimes called IFIMETRICS2) which includes information
+                   about the PANOSE table.
+
+  The IFIMETRICS2 structure is identical to IFIMETRICS but with the addition of
+  the following new fields at the end:
+
+    ULONG   ulMetricsLength      The size of the data structure.
+    PANOSE  panose               The 12-byte PANOSE table data structure. See
+                                 the "IBM OS/2 GPI Guide and Reference" for the
+                                 format of this structure.
+
+
+PAGE 3
+
+  PFDCLF FdClaimFontFile      This entrypoint is deprecated.  The corresponding
+                              field within FDDISPATCH should be set to NULL.
+
+
+PAGE 4
+
+  Reference to 'SSFreeSeg()' should be 'SSFreeMem()'.
+
+
+PAGE 7
+
+  OS/2 release 4.5 and up supports 1105 characters with a glyphlist name of
+  'PM383'.
+
+
+
+

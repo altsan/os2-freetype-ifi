@@ -1,0 +1,43 @@
+
+  This is a FreeType/2 programmers' mini-FAQ
+
+Q1: Is the source code available?
+
+A1: Yes! The code is now hosted on GitHub at
+      https://github.com/altsan/os2-freetype-ifi
+   The source code for FreeType/2 v1.3x is under the 'legacy' directory.
+
+    We have now the permission to distribute the OS/2 IFI headers with
+   the FreeType/2 source code. They're all the files beginning with a
+   "32" in the "ifi" directory. 
+
+
+Q2: What compilers are supported?
+
+A2: The development of FreeType/2 was done primarily in IBM's VisualAge C++
+   version 3.0. 
+
+    It is perhaps possible to build the Font Driver with another compiler,
+   but you'll have to know the compiler (and OS/2 of course) _quite_ well.
+   Keep in mind that FreeType/2 must be built as a subsystem, _not_ a
+   regular DLL. Not all compilers support this. It also requires the use 
+   of a couple of special APIs which are probably not available in all
+   compiler runtimes.
+
+    Note that the FreeType library itself supports also GCC (and I
+   believe it was mainly developed in it).
+
+
+Q3: What other tools do I need?
+
+A3: You'll quite likely want a kernel debugger. Check out IBM's ICAT, it's 
+   great and it's free! Actually without ICAT this code would probably never
+   happen. If you've lived under a rock and don't know what ICAT is, it's
+   actually an interface to ol' good KDB. It is a source-level debugger and
+   it looks and feels very much like the VisualAge debugger, IPMD.
+
+    And if you haven't got it yet, you'll need _two_ computers to use ICAT.
+   But believe me, it's worth it!
+
+    A virtual machine capable of running OS/2 (like VirtualPC) is also
+   extremely useful for testing.

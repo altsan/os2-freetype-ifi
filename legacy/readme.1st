@@ -1,0 +1,54 @@
+This is the source code from the FreeType/2 OS/2 font driver.
+Copyright (C) 1997-1998 Michal Necasek (mike@mendelu.cz).
+Copyright (C) 2003-2004 Seo, Hyun-Tae (acrab001@hitel.net)
+Copyright (C) 2002-2007 KO Myung-Hun (komh@chollian.net)
+Copyright (C) 2010-2013 Alex Taylor (alex @ altsan . org)
+
+Here's a description of the files in this package :
+
+  readme.1st     This file
+
+  read1st.kor    Source code README for Korean
+
+  DEVELFAQ       The FreeType/2 developer faq. Read it before trying to
+                 compile this program
+
+  ifi/           Source code of the FreeType/2 font driver proper
+
+  config/        Source code of ftconfig.exe
+
+  lib/           Files of cross-platform FreeType library version 1.3.1
+
+  dev-docs/      Some documentation 
+
+
+Here's how to compile the font driver.
+
+0. Read the DEVELFAQ ! Now ! Then make a WPS backup !
+
+1. Compile FreeType library, simply go to "lib" directory,
+   and type :
+
+     nmake -f arch\os2\makefile.icc
+
+2. Compile the font driver. Go to the "ifi" directory, then type
+
+     nmake -f freetype.icc
+
+   You should have created a file called "FreeType.dll". Copy it to
+   your "ftos2" directory..
+
+3. Run the "install.cmd" script, then reboot after closing all
+   applications.
+
+4. When your desktop is back, go to the font palette and try to
+   install some new TrueType fonts. Enjoy the difference :-)
+
+5. You can also compile a small memory usage dumper called "ftmem.c"
+   to know how much memory the driver is using. Simply do
+
+     nmake -f ftmem.icc
+
+   Then launch it. A small window will appear with the current amount
+   of memory allocated by the driver.
+
