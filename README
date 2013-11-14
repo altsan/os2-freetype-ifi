@@ -1,0 +1,31 @@
+FREETYPE/2-IFI
+Intelligent Font Interface Driver for OS/2 Presentation Manager 
+
+(C) 2010-2013 Alexander Taylor
+(C) 2002-2007 KO Myung-Hun 
+(C) 2003-2004 Seo, Hyun-Tae 
+(C) 1997-2000 Michal Necasek 
+
+and
+
+(C) 1997-2013 The FreeType Project
+
+
+FreeType/2-IFI is an OS/2 Presentation Manager font driver that provides
+system-wide support for TrueType and OpenType fonts.  It is designed to
+replace OS/2's built-in TRUETYPE.DLL driver, and uses the open source
+FreeType library for font rendering.  
+
+This repository contains the latest source code for two different versions
+of FreeType/2-IFI:
+
+ ft2ifi/      Source code for version 2.x, which is based on FreeType v2 and
+              supports OpenType fonts (including TrueType and CFF).  This
+              version is quite new and still somewhat experimental, but will
+              hopefully soon be in a position to supersede...
+
+ legacy/      Source code for the old version 1.3x.  This is based on the
+              extremely old FreeType v1 library, and supports only TrueType
+              fonts (not OpenType/CFF).  This version is in maintenance mode.
+
+See the documentation in each of the above directories for more details.
