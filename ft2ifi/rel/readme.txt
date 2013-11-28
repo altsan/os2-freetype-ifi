@@ -1,6 +1,6 @@
 FREETYPE/2-IFI
 INTELLIGENT FONT INTERFACE DRIVER FOR PRESENTATION MANAGER 
-Version 2.0.0 (fourth technology preview)
+Version 2.0.0 public beta 1
 
   (C) 2013 Alexander Taylor
   (C) 1997-2013 The FreeType Project
@@ -69,8 +69,8 @@ INTRODUCTION
   the FreeType library (which they provide themselves).  They generally do
   this specifically to avoid using Presentation Manager for rendering text,
   which allows them to offer certain additional features.  FreeType/2-IFI
-  has no effect on how such applications render text.  However, it should
-  allow them to make use of OpenType fonts which you install on your system,
+  has no effect on how such applications render text...  HOWEVER, it should
+  allow them to make use of OpenType fonts which you install on your system--
   since these programs generally still rely on Presentation Manager to report
   what fonts are available.  So programs like OpenOffice and Mozilla should
   also be able to benefit from the new OpenType font support.
@@ -110,20 +110,22 @@ NEW IN VERSION 2
   commercial fonts from the big foundries like Adobe, Monotype, etc. were
   originally designed as Adobe Type 1 fonts, meaning they were in PostScript
   format already; when it came time to upgrade them it was both simpler and
-  more technically sound to convert them to OpenType/PS files.
+  more technically sound to convert them to OpenType/PS files.  So when you
+  go to buy a high-quality commercial font nowadays, you will generally find
+  them offered in OTF format, sometimes exclusively so.
 
   Anyway, starting with this release of FreeType/2-IFI, both OpenType font
   formats should now be supported equally well! 
 
 
-LIMITATIONS
+LIMITATIONS & KNOWN PROBLEMS
 
-  THIS IS A PREVIEW RELEASE.  It has NOT been exhaustively tested, and may 
-  have undesirable side effects.  You are strongly advised NOT to install
-  this release on a production system.
+  THIS IS A BETA RELEASE.  It has only been tested in a limited number of
+  environments, and may have undesirable side effects.  You are strongly
+  advised not to install this release on a production system.
 
-  No configuration GUI is yet available for this version.  FT2IFI will ignore
-  the OS2.INI settings used by FREETYPE.DLL. 
+  No configuration GUI is yet available for this version.  (Note that FT2IFI
+  will ignore the OS2.INI settings used by the older FREETYPE.DLL.) 
 
   At present, Unicode encoding is always turned on for fonts which support
   it, unless a more appropriate DBCS encoding is found (and excluding DBCS 
@@ -131,13 +133,20 @@ LIMITATIONS
   MBCS flag is also always set for Unicode fonts.  At least some of these
   behaviours will eventually be configurable, similar to version 1.3x.
 
-  Kerning support is currently disabled due to changes in the FreeType v2
-  engine which require extensive work to accomodate. 
+  Kerning support is currently disabled under native PM rendering, due to
+  changes in the FreeType v2 engine which require extensive work to accomodate.
+  (It should be noted that the original IBM TrueType driver does not appear to
+  have supported kerning either.)
+
+  Fonts from version 5.x of the 'Linux Libertine' collection do not display
+  properly in Presentation Manager (in either TTF or OTF format).  I have not
+  yet determined why this is.  Versions 4.75 and older do appear to work.
 
   OpenType-specific layout tables (e.g. contextual alternates, advanced 
-  positioning, etc.) are not currently supported, in part because the
-  FreeType library itself does not support them.  In any case, these features
-  generally have to be implemented at the application level.
+  positioning, etc.) are not currently supported (and may never be); this is
+  mainly because the FreeType library itself does not support them.  In any
+  case, features such as these generally have to be implemented at the
+  application level.
 
   While you can, as always, install font files to any arbitrary location you
   want, you should avoid installing them on a FAT32 drive.  The OS/2 FAT32
@@ -145,10 +154,10 @@ LIMITATIONS
   parsing font files quite sluggish.
 
   FreeType/2-IFI only replaces the TrueType support module within Presentation
-  Manager.  It cannot circumvent any of the limitations inherent in
-  Presentation Manager's graphics layer (GRE/GPI). In particular, there is no
-  support for antialiased fonts, or for font names longer than 31 characters
-  (both of which are restrictions imposed by PM, and not by the font driver).
+  Manager.  It cannot circumvent any of the limitations inherent in PM's 
+  graphics layer (GRE/GPI).  In particular, there is no support for anti-
+  aliased fonts, or for font names longer than 31 characters (both of which 
+  are restrictions imposed by PM, and not by the font driver).
 
 
 
@@ -215,4 +224,4 @@ NOTICES
 -- 
 Alexander Taylor 
 alex at altsan dot org
-October 2013
+November 2013

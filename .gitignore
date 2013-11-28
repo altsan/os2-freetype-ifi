@@ -6,4 +6,5 @@
 *.map
 *.sym
 *.log
-legacy/bkp
+ft2ifi/_old
+legacy/_old
