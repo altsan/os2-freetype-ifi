@@ -7,4 +7,4 @@ DATA SINGLE SHARED READWRITE LOADONCALL
 ;DATA MULTIPLE NONSHARED READWRITE LOADONCALL
 CODE LOADONCALL
 
-DESCRIPTION '@#Alexander Taylor:2.0.0#@##1## 13 Nov 2013 19:21:55     REINFORCE::::::@@FT2IFI - OpenType PM font driver based on FreeType 2'
+DESCRIPTION '@#Alexander Taylor:2.0.0#@##1## 11 Jan 2014 17:45:29     REINFORCE::::::@@FT2IFI - OpenType PM font driver based on FreeType 2'

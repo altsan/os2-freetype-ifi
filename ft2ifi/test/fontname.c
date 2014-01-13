@@ -232,10 +232,11 @@ int main ( int argc, char *argv[] )
             case 0:
                 strcpy( szPID, "Unicode");
                 switch ( charmap->encoding_id ) {
-                    case 0:  strcpy( szEID, "default");   break;
-                    case 1:  strcpy( szEID, "1.1");       break;
-                    case 3:  strcpy( szEID, "2+");        break;
-                    default: strcpy( szEID, "unknown");   break;
+                    case 0:  strcpy( szEID, "default");     break;
+                    case 1:  strcpy( szEID, "1.1");         break;
+                    case 3:  strcpy( szEID, "2+");          break;
+                    case 4:  strcpy( szEID, "3.1+ UTF-32"); break;
+                    default: strcpy( szEID, "unknown");     break;
                 }
                 break;
 

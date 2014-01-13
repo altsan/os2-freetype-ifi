@@ -51,6 +51,7 @@ char*  itoa10( int i, char* buffer ) {
   #define  COPY(s)     strcpy(log, s)
   #define  CAT(s)      strcat(log, s)
   #define  CATI(v)     strcat(log, itoa10( (int)v, buf ))
+  #define  CATX(v)     strcat(log, _ultoa( (ULONG)v, buf, 16 ))
   #define  WRITE       DosWrite(LogHandle, log, strlen(log), &Written)
 
   #define  ERET1(label) { COPY("Error at ");  \
@@ -73,6 +74,7 @@ char*  itoa10( int i, char* buffer ) {
   #define  COPY(s)
   #define  CAT(s)
   #define  CATI(v)
+  #define  CATX(v)
   #define  WRITE
 
   #define  ERET1(label)  goto label;
