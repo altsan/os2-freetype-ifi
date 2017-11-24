@@ -13,8 +13,13 @@ MAIN   = ft2conf
 OBJS   = $(MAIN).obj
 MRI    = resource
 LIBS   =
-NLV    = en
 
+# National language version to be built
+!ifndef NLV
+    NLV = en
+!endif
+
+# Whether to include debug symbols
 !ifdef DEBUG
     CFLAGS   = $(CFLAGS) /Ti /Tm
     LFLAGS   = $(LFLAGS) /DEBUG

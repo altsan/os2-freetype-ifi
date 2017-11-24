@@ -61,6 +61,62 @@ END
 
 
 /********************
+ * SPANISH MESSAGES
+ */
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_ES + IDS_PROGRAM_TITLE)            "Configuraci¢n de FreeType/2"
+    (ID_BASE_ES + IDS_PAGE_DRIVER)              "~Controlador"
+    (ID_BASE_ES + IDS_PAGE_SETTINGS)            "~Opciones"
+    (ID_BASE_ES + IDS_PAGE_ABOUT)               "~Acerca de"
+    (ID_BASE_ES + IDS_PAGE_1OF2)                "P gina 1 de 2"
+    (ID_BASE_ES + IDS_PAGE_2OF2)                "P gina 2 de 2"
+    (ID_BASE_ES + IDS_TRUETYPEDLL_DESC)         "TRUETYPE.DLL (IBM TrueType IFI)"
+    (ID_BASE_ES + IDS_FREETYPEDLL_DESC)         "FREETYPE.DLL (FreeType IFI)"
+    (ID_BASE_ES + IDS_MESSAGE_REBOOT)           "Los cambios no tendr n efecto hasta que se reinicie el sistema."
+END
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_ES + IDS_ERRT_GEN)                 "Error"
+    (ID_BASE_ES + IDS_ERROR_NOTEBOOK)           "Error al poblar el cuaderno de opciones. El programa no puede continuar."
+    (ID_BASE_ES + IDS_ERRT_NOTFOUND)            "FREETYPE.DLL no encontrada"
+    (ID_BASE_ES + IDS_ERROR_NOTFOUND)           "No se ha encontrado %s. ¨Desea especificar otra v¡a de acceso?"
+END
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_ES + IDS_BTN_OK)                   "~Bien"
+    (ID_BASE_ES + IDS_BTN_CANCEL)               "~Cancelar"
+    (ID_BASE_ES + IDS_BTN_HELP)                 "~Ayuda"
+    (ID_BASE_ES + IDS_BTN_RESET)                "~Deshacer"
+END
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_ES + IDS_CTL_CURRENT_DRIVER)       "Controlador actual de fuentes TrueType:"
+    (ID_BASE_ES + IDS_CTL_UNICODE_SETTINGS)     "Opciones de Unicode"
+    (ID_BASE_ES + IDS_CTL_FORCEUNICODE)         "Utilizar codificaci¢n Unicode si est  disponible"
+    (ID_BASE_ES + IDS_CTL_FORCEMBCS)            "Mostrar fuentes Unicode como compatibles con MBCS"
+    (ID_BASE_ES + IDS_CTL_EXCEPTASSOC)          "Utilizar DBCS en vez de Unicode en la fuente de asociaci¢n"
+    (ID_BASE_ES + IDS_CTL_EXCEPTCMB)            "Utilizar DBCS en vez de Unicode para las fuentes combinadas"
+    (ID_BASE_ES + IDS_CTL_OPTIONAL_FEATURES)    "Caracter¡sticas opcionales"
+    (ID_BASE_ES + IDS_CTL_FAKEBOLD)             "Crear negrita simulada para las fuentes DBCS"
+    (ID_BASE_ES + IDS_CTL_STYLEFIX)             "Ajustar nombres de estilo est ndar"
+    (ID_BASE_ES + IDS_CTL_NETSCAPEFIX)          "Optimizar m‚trica de glifos para Netscape"
+    (ID_BASE_ES + IDS_CTL_FACENAMEALIAS)        "Utilizar ""TmsRmn"" como alias de ""Times New Roman"" TrueType"
+    (ID_BASE_ES + IDS_CTL_ADVANCED_SETTINGS)    "Opciones avanzadas"
+    (ID_BASE_ES + IDS_CTL_TXTCACHE)             "Tama¤o del cach‚ de fuentes abiertas:"
+    (ID_BASE_ES + IDS_CTL_TXTRESOLUTION)        "Resoluci¢n del texto:"
+    (ID_BASE_ES + IDS_CTL_TXTFONTS)             "fuentes"
+    (ID_BASE_ES + IDS_CTL_TXTDPI)               "ppp"
+    (ID_BASE_ES + IDS_CTL_TXTVERSION)           "Versi¢n %s"
+    (ID_BASE_ES + IDS_CTL_TXTCOPYRIGHT)         "%s Alex Taylor"
+END
+
+
+/********************
  * JAPANESE MESSAGES
  */
 

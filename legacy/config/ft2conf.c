@@ -1101,6 +1101,7 @@ ULONG SetLanguage( HMQ hmq )
     else if ( ISRUCODEPG(ulCP) && strnicmp(pszEnv, "RU_", 3 ) == 0 ) usCC = 7;
     else if ( strnicmp(pszEnv, "NL_", 3 ) == 0 ) usCC = 31;
     else if ( strnicmp(pszEnv, "FR_", 3 ) == 0 ) usCC = 33;
+    else if ( strnicmp(pszEnv, "ES_", 3 ) == 0 ) usCC = 34;
     else if ( strnicmp(pszEnv, "IT_", 3 ) == 0 ) usCC = 39;
     else if ( strnicmp(pszEnv, "SV_", 3 ) == 0 ) usCC = 46;
     else if ( strnicmp(pszEnv, "DE_", 3 ) == 0 ) usCC = 49;
