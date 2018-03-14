@@ -1,12 +1,15 @@
 #define INCL_DOSERRORS
 #define INCL_DOSMISC
 #define INCL_DOSNLS
+#define INCL_DOSNMPIPES
+#define INCL_DOSQUEUES
 #define INCL_DOSRESOURCES
 #define INCL_WIN
 #include <os2.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <process.h>
 #include "resource.h"
 
 // ----------------------------------------------------------------------------
@@ -25,6 +28,7 @@
 // Buffer limits
 #define US_RES_MAXZ             256     // string resource buffer size
 #define US_DLL_MAXZ             13      // DLL name length (8.3 + null)
+#define US_BLSIG_MAXZ           256     // BLDLEVEL signature buffer size
 
 // Profile (INI) file entries
 #define PRF_APP_FTIFI           "FreeType/2"            // main application
@@ -47,6 +51,8 @@
 #define PRF_KEY_TRUETYPE        "TRUETYPE"
 
 #define PRF_APP_ABRFILES        "PM_ABRFiles"
+
+#define HF_STDOUT               1   // handle to STDOUT
 
 // ----------------------------------------------------------------------------
 // MACROS
@@ -99,6 +105,16 @@ typedef struct _Global_Data {
 } FTCGLOBAL, *PFTCGLOBAL;
 
 
+typedef struct _BL_Info {
+    CHAR  szVendor[ 32 ];       // Vendor string
+    CHAR  szVersion[ 11 ];      // Revision string
+#if 0
+    CHAR  szTime[ 27 ];         // Date/time string
+    CHAR  szExtra[ 1 ];         // Additional information
+#endif
+} BLDLEVEL, *PBLDLEVEL;
+
+
 // ----------------------------------------------------------------------------
 // FUNCTIONS
 
@@ -114,4 +130,6 @@ void             ReadSettings( HWND hwnd );
 void             WriteSettings( HWND hwnd, PFTCGLOBAL pGlobal );
 ULONG            SetLanguage( HMQ hmq );
 BOOL             CheckFTDLL( PFTCGLOBAL pGlobal );
+void             UpdateVersionDisplay( HWND hwnd, PFTCGLOBAL pGlobal );
+BOOL             GetBldLevel( PSZ pszFile, PBLDLEVEL pInfo );
 
