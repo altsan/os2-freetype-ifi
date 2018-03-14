@@ -17,8 +17,8 @@
 
 #define HELP_FILE               "ftconfig.hlp"
 
-#define SZ_VERSION              "1.05"
-#define SZ_COPYRIGHT            "(C) 2010-2017"
+#define SZ_VERSION              "1.06"
+#define SZ_COPYRIGHT            "(C) 2010-2018"
 
 // Default settings values
 #define US_CACHE_MIN            8       // minimum value for font face cache
