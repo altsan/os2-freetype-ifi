@@ -188,26 +188,40 @@ LONG _System FdQueryFullFaces(HFF hff, PVOID pBuffer, PULONG cBuflen,
 /* (these are kept in the high-order word of the flags field) */
 
 /* Option flags that are only used per font-file */
-#define FL_OPT_FAKE_BOLD        0x010000    // create a fake bold face
-#define FL_OPT_FAKE_ITALIC      0x020000    // create a fake italic face (not implemented)
+#define FL_OPT_FAKE_BOLD        0x10000     // create a fake bold face
+#define FL_OPT_FAKE_ITALIC      0x20000     // create a fake italic face (not implemented)
+#define FL_OPT_RENAMED          0x40000     // font has custom family/facename override
 
 /* Option flags that can be used for a font-file, or globally */
 #define FL_OPT_FORCE_UNICODE    0x100000    // force use of Unicode over UGL-translation
 #define FL_OPT_FORCE_UNI_MBCS   0x200000    // always set MBCS flag when Unicode used
-#define FL_OPT_ALT_FACENAME     0x400000    // use alternate facename logic
+#define FL_OPT_PREF_NAMES       0x400000    // use 'preferred' instead of legacy names if available
+#define FL_OPT_ALT_FACENAME     0x800000    // generate the facename from the family/subfamily names
 
 /* Option flags that are only used globally */
 #define FL_OPT_ALIAS_TMS_RMN    0x1000000   // create a special 'TmsRmn' alias for 'Times New Roman'
 #define FL_OPT_STYLE_FIX        0x2000000   // enable the OpenOffice face/style name workaround
 
-
 #define IFI_PROFILE_APP         "FreeType IFI v2"
 #define IFI_PROFILE_FONTFLAGS   "FreeType IFI v2:FontFlags"
+#define IFI_PROFILE_FONTNAMES   "FreeType IFI v2:FontNames"
 
 
 /****************************************************************************
  * TYPEDEFS                                                                 *
  ****************************************************************************/
+
+#pragma pack(1)
+
+/* --------------------------------------------------------------------------
+ * Structure used to store custom family/face name for specific font-files in
+ * OS2.INI (under IFI_PROFILE_FONTNAMES -> filename).
+ */
+typedef struct _FFRenameFont {
+    ULONG cb;                           // size of this structure
+    CHAR  achFamilyName[ FACESIZE ];    // custom family name
+    CHAR  achFaceName[ FACESIZE ];      // custom face name
+} FFRENAME, *PFFRENAME;
 
 
 /* --------------------------------------------------------------------------
@@ -216,7 +230,6 @@ LONG _System FdQueryFullFaces(HFF hff, PVOID pBuffer, PULONG cBuflen,
  * from the start of the structure).  The cbLength field indicates the total
  * length, including both the family and face name strings.
  */
-#pragma pack(1)
 
 typedef struct _FFDESCS2 {
     ULONG cbLength;             // length of this entry (WORD aligned)

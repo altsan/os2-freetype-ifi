@@ -440,6 +440,7 @@ MRESULT EXPENTRY DriverPageProc( HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2 )
                 WinSendDlgItemMsg( hwnd, IDD_DRIVER, LM_SELECTITEM,
                                    MPFROMSHORT( 2 ), MPFROMSHORT( TRUE ));
             }
+            UpdateVersionDisplay( hwnd, pGlobal );
             //WinEnableControl( hwnd, ID_RESET, FALSE );
             return (MRESULT) TRUE;
 
@@ -495,6 +496,7 @@ MRESULT EXPENTRY DriverPageProc( HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2 )
                                             MPFROMSHORT( 0 ), MPFROMSHORT( TRUE ));
                         }
                         if ( pGlobal->fInitDone ) {
+                            UpdateVersionDisplay( hwnd, pGlobal );
                             EnableTabs( pGlobal->hwndMain, pGlobal->fFreeTypeActive );
                             ShowChanged( hwnd );
                             //WinEnableControl( hwnd, ID_RESET, TRUE );
@@ -1101,6 +1103,7 @@ ULONG SetLanguage( HMQ hmq )
     else if ( ISRUCODEPG(ulCP) && strnicmp(pszEnv, "RU_", 3 ) == 0 ) usCC = 7;
     else if ( strnicmp(pszEnv, "NL_", 3 ) == 0 ) usCC = 31;
     else if ( strnicmp(pszEnv, "FR_", 3 ) == 0 ) usCC = 33;
+    else if ( strnicmp(pszEnv, "ES_", 3 ) == 0 ) usCC = 34;
     else if ( strnicmp(pszEnv, "IT_", 3 ) == 0 ) usCC = 39;
     else if ( strnicmp(pszEnv, "SV_", 3 ) == 0 ) usCC = 46;
     else if ( strnicmp(pszEnv, "DE_", 3 ) == 0 ) usCC = 49;
@@ -1173,4 +1176,108 @@ BOOL CheckFTDLL( PFTCGLOBAL pGlobal )
     return TRUE;
 }
 
+
+/* ------------------------------------------------------------------------- *
+ * UpdateVersionDisplay                                                      *
+ *                                                                           *
+ * Update the IFI version field.                                             *
+ *                                                                           *
+ * ARGUMENTS:                                                                *
+ *   HWND       hwnd   : Handle to driver page window.                       *
+ *   PFTCGLOBAL pGlobal: Pointer to global application data.                 *
+ *                                                                           *
+ * RETURNS: N/A                                                              *
+ * ------------------------------------------------------------------------- */
+void UpdateVersionDisplay( HWND hwnd, PFTCGLOBAL pGlobal )
+{
+    BLDLEVEL blinfo = {0};
+    ULONG    ulDrv;
+    CHAR     szBuf[ CCHMAXPATH ];
+    CHAR     szRes[ US_RES_MAXZ ];
+
+    if ( pGlobal->fFreeTypeActive )
+        strcpy( szBuf, pGlobal->szDLL );
+    else {
+        if ( DosQuerySysInfo( QSV_BOOT_DRIVE, QSV_BOOT_DRIVE, &ulDrv, sizeof(ULONG) ))
+            sprintf( szBuf, "\\OS2\\DLL\\TRUETYPE.DLL");
+        else
+            sprintf( szBuf, "%c:\\OS2\\DLL\\TRUETYPE.DLL", ulDrv+64 );
+    }
+
+    if ( !WinLoadString( pGlobal->hab, 0, pGlobal->iLangID + IDS_CTL_TXTVERSION,
+                         US_RES_MAXZ, szRes ))
+        strcpy( szRes, "Version %s");
+
+    if ( GetBldLevel( szBuf, &blinfo ))
+        sprintf( szBuf, szRes, blinfo.szVersion );
+    else
+        sprintf( szBuf, "");
+    WinSetDlgItemText( hwnd, IDD_TXTIFIVERSION, szBuf );
+}
+
+/* ------------------------------------------------------------------------- *
+ * GetBldLevel                                                               *
+ *                                                                           *
+ * Get the BLDLEVEL signature from a file.                                   *
+ *                                                                           *
+ * ARGUMENTS:                                                                *
+ *   PSZ       pszfile : Name of the file to query.                      (I) *
+ *   PBLDLEVEL pInfo   : Pointer to BLDLEVEL information structure.      (O) *
+ *                                                                           *
+ * RETURNS: BOOL                                                             *
+ *   TRUE if the signature was read successfully.                            *
+ *   FALSE if the signature could not be read.                               *
+ * ------------------------------------------------------------------------- */
+BOOL GetBldLevel( PSZ pszFile, PBLDLEVEL pInfo )
+{
+    CHAR achSig[ US_BLSIG_MAXZ ] = {0};
+    HPIPE hpR, hpW;
+    HFILE hfSave = -1,
+          hfNew  = HF_STDOUT;
+    ULONG ulRead = 0,
+          ulRC;
+    PSZ   psz, tok;
+    USHORT c;
+
+    if ( !pszFile || !pInfo ) return FALSE;
+
+    DosDupHandle( HF_STDOUT, &hfSave ); // save handle to STDOUT
+    DosCreatePipe( &hpR, &hpW, 0 );     // create a new pipe with R/W handles
+    DosDupHandle( hpW, &hfNew );        // redirect STDOUT to our pipe
+
+    ulRC = spawnlp( P_WAIT, "bldlevel", "bldlevel", pszFile, NULL );
+
+    DosClose( hpW );
+    DosDupHandle( hfSave, &hfNew );     // restore STDOUT
+    DosRead( hpR, achSig, US_BLSIG_MAXZ, &ulRead ); // get our redirected output (1 char)
+    DosClose( hpR );
+    if ( ulRC != 0 ) return FALSE;
+
+    // Find the start of the actual signature
+    psz = strpbrk( achSig, "@#");
+    if ( !psz || ( strlen( psz ) < 3 )) return FALSE;
+    psz += 2;
+
+    if (( tok = strchr( psz, '\r')) != NULL ) *tok = 0;
+
+    // Parse the vendor name
+    tok = strtok( psz, ":");
+    strncpy( pInfo->szVendor, psz, 31 );
+
+    // Parse the version string
+    tok = strtok( NULL, "#");
+    if ( !tok ) return TRUE;
+    strncpy( pInfo->szVersion, tok, 10 );
+
+#if 0
+    if ( tok ) tok = strtok( NULL, "#");
+    if ( tok ) tok = strtok( NULL, "#");
+    if ( tok ) tok = strtok( NULL, "#");
+    if ( tok ) {
+        strncpy( pInfo->szTime, tok, 26 );
+    }
+#endif
+
+    return TRUE;
+}
 

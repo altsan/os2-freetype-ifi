@@ -395,10 +395,14 @@ FT_Error FX_Activate_Stream( FT_Face face )
     if ( ! STREAM_FILE( face->stream )) {
         error = FT_Stream_Open( face->stream, face->stream->pathname.pointer );
         if ( !error ) {
+#if 1
             COPY( "[FX_Activate_Stream] FT_Stream_Open successful. Restored position: ");
             DosSetFilePtr( STREAM_FILE( face->stream ),
                            ulPos, FILE_BEGIN, &(face->stream->pos));
             CATI( face->stream->pos ); CAT("\r\n"); WRITE;
+#else
+            face->stream->pos = 0;
+#endif
         }
         else {
             COPY( "[FX_Activate_Stream] FT_Stream_Open failed: " );
@@ -972,8 +976,12 @@ static  void OptionsInit( void )
     if ( iVal ) fGlobalOptions |= FL_OPT_FORCE_UNI_MBCS;
 
     iVal = PrfQueryProfileInt( HINI_USERPROFILE, IFI_PROFILE_APP,
-                               "Use_Generated_Facename", TRUE );
+                               "Use_Generated_Facename", FALSE );
     if ( iVal ) fGlobalOptions |= FL_OPT_ALT_FACENAME;
+
+    iVal = PrfQueryProfileInt( HINI_USERPROFILE, IFI_PROFILE_APP,
+                               "Use_Preferred_Names", FALSE );
+    if ( iVal ) fGlobalOptions |= FL_OPT_PREF_NAMES;
 
     iVal = PrfQueryProfileInt( HINI_USERPROFILE, IFI_PROFILE_APP,
                                "Style_Fixup", FALSE );
@@ -984,10 +992,6 @@ static  void OptionsInit( void )
                                            "Force_DBCS_Association", TRUE );
    fExceptCombined = PrfQueryProfileInt( HINI_USERPROFILE, IFI_PROFILE_APP,
                                          "Force_DBCS_Combined", TRUE );
-   fStyleFix = PrfQueryProfileInt( HINI_USERPROFILE, IFI_PROFILE_APP,
-                                   "Style_Fixup", FALSE );
-   if ( fStyleFix > 1 )
-      fAlwaysFix = TRUE;
 */
 
     // Get a list of all fonts which have specific flags set
@@ -996,9 +1000,15 @@ static  void OptionsInit( void )
                               IFI_PROFILE_FONTFLAGS, NULL, &cb ) &&
          ! ALLOC( pszCfgFontFiles, ++cb ))
     {
-        if ( ! PrfQueryProfileData( HINI_USERPROFILE, IFI_PROFILE_APP,
+        if ( ! PrfQueryProfileData( HINI_USERPROFILE, IFI_PROFILE_FONTFLAGS,
                                     NULL, pszCfgFontFiles, &cb ))
             FREE( pszCfgFontFiles );
+
+        else {
+            COPY("[OptionsInit] ");                     CATI( cb );
+            CAT (" bytes of custom font flags. \r\n "); WRITE;
+        }
+
     }
 
     // See if there's a DBCS association font in use
@@ -1355,23 +1365,34 @@ PFontFile New_FontFile( PSZ file_name )
 
     // See if this font file has any user-configured flags defined
     if ( pszCfgFontFiles ) {
-       PSZ pszCur,
-           pszName;
-       int iVal;
+       PSZ   pszCur,
+             pszName;
+       ULONG ulVal, cb;
 
        pszCur = pszCfgFontFiles;
        pszName = strrchr( file_name, '\\') + 1;
        while ( pszCur && *pszCur && pszName && *pszName ) {
-          if ( !mystricmp( pszCur, pszName )) {
-             iVal = PrfQueryProfileInt( HINI_USERPROFILE,
-                                        IFI_PROFILE_FONTFLAGS, pszCur, 0L );
+          cb = sizeof( ULONG );
+          if (( !mystricmp( pszCur, pszName )) &&
+              ( PrfQueryProfileData( HINI_USERPROFILE, IFI_PROFILE_FONTFLAGS,
+                                     pszCur, (PVOID) &ulVal, &cb )))
+          {
              // per-font settings override the global ones, if defined
-             cur_file->flags = iVal & 0xFF0000;
+             cur_file->flags = ulVal & 0xFF0000;
+
+             COPY("[New_FontFile] Found custom flags for \"");
+             CAT ( pszCur );    CAT("\": ");    CATX( ulVal );    CAT("\r\n");
+             WRITE;
+
              break;
           }
           pszCur += strlen( pszCur ) + 1;
        }
     }
+
+    COPY("[New_FontFile] ");    CAT ( file_name );
+    CAT(" Flags: ");            CATX( cur_file->flags );    CAT("\r\n");
+    WRITE;
 
     // Add new font face element to idle list
     if ( List_Insert( &idleFiles, element ))
@@ -2256,11 +2277,11 @@ LONG _System FdQueryFaces( HFF          hff,
           LONG                 index, faceIndex, ifiCount = 0;
           ULONG                range1, range2;
           USHORT               fsTrunc;
-          SHORT                name_len;
+          SHORT                name_len;        // length of the family name
           SHORT                ifimet_len;
           BOOL                 fCMB;
           BOOL                 fUni;
-          char                 *name, *style;
+          char                 *name;
           char                 *pszabr;
 #if 0
    static char                 *wrongName = "Wrong Name Font";
@@ -2338,32 +2359,25 @@ LONG _System FdQueryFaces( HFF          hff,
       }
 
       /* get the OS/2 and PostScript tables */
-#if 0
-      error = FX_Get_OS2_Table( pface->face, &pOS2 );
-      if ( error || !pOS2 )
-#else
       pOS2 = (TT_OS2 *) FT_Get_Sfnt_Table( pface->face, ft_sfnt_os2 );
       if ( !pOS2 )
-#endif
       {
          COPY( "[FdQueryFaces]  - error getting OS/2 table: " ); CATI( error ); CAT("\r\n"); WRITE;
          continue;
       }
 
-#if 0
-      error = FX_Get_PostScript_Table( pface->face, &ppost );
-      if ( error || !ppost )
-#else
       ppost = (TT_Postscript *) FT_Get_Sfnt_Table( pface->face, ft_sfnt_post );
       if ( !ppost )
-#endif
       {
          // this is not fatal; we only use POST to get the italic angle
          COPY( "[FdQueryFaces]  - error getting POST table: " ); CATI( error ); CAT("\r\n"); WRITE;
       }
 
       /* get font name and check it's really found */
-      name = LookupName(pface->face, TT_NAME_ID_FONT_FAMILY);
+      if ( file->flags & FL_OPT_PREF_NAMES )
+          name = LookupName( pface->face, TT_NAME_ID_PREFERRED_FAMILY );
+      else
+          name = LookupName( pface->face, TT_NAME_ID_FONT_FAMILY );
       if (name == NULL)
 #if 0
          name = wrongName;
@@ -2373,17 +2387,17 @@ LONG _System FdQueryFaces( HFF          hff,
       COPY( "[FdQueryFaces]  - font family name is: " ); CAT( name ); CAT("\r\n"); WRITE;
 
       name_len = strlen( name );
-      strncpy(ifi.szFamilyname, name, FACESIZE);
+      strncpy( ifi.szFamilyname, name, FACESIZE );
       ifi.szFamilyname[FACESIZE-1] = '\0';
-      fsTrunc = (name_len > FACESIZE) ? IFIMETRICS_FAMTRUNC : 0;
+      fsTrunc = ( name_len > FACESIZE ) ? IFIMETRICS_FAMTRUNC : 0;
 
       ifi.fsSelection = 0;
       ifi.szFacename[0] = '\0';
 
       if (( fGlobalOptions & FL_OPT_STYLE_FIX ) &&
-          (( style = LookupName(pface->face, TT_NAME_ID_FONT_SUBFAMILY)) != NULL ))
+          (( name = LookupName(pface->face, TT_NAME_ID_FONT_SUBFAMILY)) != NULL ))
       {
-          LONG style_len = strlen( style );
+          LONG style_len = strlen( name );
 
           /* The following fixup, if enabled, changes the face name to always
            * take the format <familyname> <style> if the style is one of "Bold",
@@ -2396,22 +2410,22 @@ LONG _System FdQueryFaces( HFF          hff,
            * rigid naming conventions.
            */
 
-          if (( !strcmp( style, "Bold Italic") &&
+          if (( !strcmp( name, "Bold Italic") &&
                 !strstr( ifi.szFamilyname, " Bold") &&
                 !strstr( ifi.szFamilyname, " Italic")) ||
-              ( !strcmp( style, "Bold Oblique") &&
+              ( !strcmp( name, "Bold Oblique") &&
                 !strstr( ifi.szFamilyname, " Bold") &&
                 !strstr( ifi.szFamilyname, " Oblique")) ||
-              ( !strcmp( style, "Bold") &&
+              ( !strcmp( name, "Bold") &&
                 !strstr( ifi.szFamilyname, " Bold")) ||
-              ( !strcmp( style, "Italic") &&
+              ( !strcmp( name, "Italic") &&
                 !strstr( ifi.szFamilyname, " Italic")) ||
-              ( !strcmp( style, "Oblique") &&
+              ( !strcmp( name, "Oblique") &&
                 !strstr( ifi.szFamilyname, " Oblique")))
           {
               strncpy( ifi.szFacename, ifi.szFamilyname, FACESIZE );
               strncat( ifi.szFacename, " ", FACESIZE );
-              strncat( ifi.szFacename, style, FACESIZE );
+              strncat( ifi.szFacename, name, FACESIZE );
               fsTrunc |= ((name_len + style_len + 1) > FACESIZE ) ?
                          IFIMETRICS_FACETRUNC : 0;
           }
@@ -2420,7 +2434,7 @@ LONG _System FdQueryFaces( HFF          hff,
            * or just keep it as "Medium" otherwise (but apply the family name
            * fixup regardless).
            */
-          else if ( !strcmp( style, "Medium") &&
+          else if ( !strcmp( name, "Medium") &&
                     !strstr( ifi.szFamilyname, " Medium"))
           {
               if ( pOS2->usWeightClass > 600 ) {
@@ -2440,7 +2454,7 @@ LONG _System FdQueryFaces( HFF          hff,
                              IFIMETRICS_FACETRUNC : 0;
               }
           }
-          else if ( !strcmp( style, "Medium Italic") &&
+          else if ( !strcmp( name, "Medium Italic") &&
                     !strstr( ifi.szFamilyname, " Medium Italic"))
           {
               if ( pOS2->usWeightClass > 600 ) {
@@ -2462,7 +2476,7 @@ LONG _System FdQueryFaces( HFF          hff,
                              IFIMETRICS_FACETRUNC : 0;
               }
           }
-          else if ( !strcmp( style, "Medium Oblique") &&
+          else if ( !strcmp( name, "Medium Oblique") &&
                     !strstr( ifi.szFamilyname, " Medium Oblique"))
           {
               if ( pOS2->usWeightClass > 600 ) {
@@ -2484,41 +2498,52 @@ LONG _System FdQueryFaces( HFF          hff,
                              IFIMETRICS_FACETRUNC : 0;
               }
           }
-          else if ( !strcmp( style, "Regular") ||
-                    !strcmp( style, "Normal") ||
-                    !strcmp( style, "Roman") ||
-                    !strcmp( style, "Reg"))
+          else if ( !strcmp( name, "Regular") ||
+                    !strcmp( name, "Normal") ||
+                    !strcmp( name, "Roman") ||
+                    !strcmp( name, "Reg"))
           {
               strncpy( ifi.szFacename, ifi.szFamilyname, FACESIZE );
               fsTrunc |= (name_len > FACESIZE ) ? IFIMETRICS_FACETRUNC : 0;
           }
-/*
-          else if ( fAlwaysFix )
-          {
-              strncpy( ifi.szFacename, ifi.szFamilyname, FACESIZE );
-              strncat( ifi.szFacename, " ", FACESIZE );
-              strncat( ifi.szFacename, style, FACESIZE );
-              fsTrunc |= ((name_len + style_len + 1) > FACESIZE ) ?
-                         IFIMETRICS_FACETRUNC : 0;
-          }
-*/
       }
 
       // Get the full face name if we didn't set one up above
       if ( ifi.szFacename[0] == '\0') {
-          name = LookupName(pface->face, TT_NAME_ID_FULL_NAME);
-          if (name == NULL) {
-              strncpy(ifi.szFacename, pface->face->family_name, FACESIZE );
-              strncat(ifi.szFacename, " ", FACESIZE );
-              strncat(ifi.szFacename, pface->face->style_name, FACESIZE );
-              if (( strlen(pface->face->family_name) + 1 +
-                    strlen(pface->face->style_name)) > FACESIZE )
-                 fsTrunc |= IFIMETRICS_FACETRUNC;
+          name = NULL;
+
+          if (( file->flags & FL_OPT_PREF_NAMES ) ||
+              ( file->flags & FL_OPT_ALT_FACENAME ))
+          {
+              // First case: 'use preferred facenames where available' option is set
+              //    (facename = preferred family name + preferred subfamily name)
+              if ( file->flags & FL_OPT_PREF_NAMES )
+                  name = LookupName( pface->face, TT_NAME_ID_PREFERRED_SUBFAMILY );
+
+              // Alternative case: 'use standardized facenames' option is set
+              //    (facename = family name + subfamily name)
+              else
+                  name = LookupName( pface->face, TT_NAME_ID_FONT_SUBFAMILY );
+
+              if ( name == NULL )
+                  name = pface->face->style_name;
+
+              strncpy( ifi.szFacename, ifi.szFamilyname, FACESIZE );
+              strncat( ifi.szFacename, " ", FACESIZE );
+              strncat( ifi.szFacename, name, FACESIZE );
+              fsTrunc |= ((name_len + strlen(name) + 1) > FACESIZE ) ?
+                         IFIMETRICS_FACETRUNC : 0;
           }
+
+          // When neither of the above is set, use the regular TT facename field
           else {
-              strncpy(ifi.szFacename, name, FACESIZE );
+              name = LookupName(pface->face, TT_NAME_ID_FULL_NAME );
+              if ( name == NULL )
+                  name = pface->face->style_name;
+              strncpy( ifi.szFacename, name, FACESIZE );
               fsTrunc |= (strlen(name) > FACESIZE) ? IFIMETRICS_FACETRUNC : 0;
           }
+
       }
       ifi.szFacename[FACESIZE - 1] = '\0';
       if (ifi.szFacename[strlen(ifi.szFacename)-1] == ' ')
@@ -3532,6 +3557,10 @@ LONG _System FdQueryCharAttr( HFC             hfc,
    error = FT_Load_Glyph( face->face, gindex, load_format );
    if (error)
    {
+       COPY("[FdQueryCharAttr] FT_Load_Glyph failed for index "); CATI( gindex );
+       CAT("!!  Error code is ");                                 CATI( error );
+       CAT(" - trying again with default glyph.\r\n"); WRITE;
+
        /* try to recover quietly */
        error = FT_Load_Glyph( face->face, 0, load_format );
        if (error) {
@@ -3679,8 +3708,11 @@ LONG _System FdQueryCharAttr( HFC             hfc,
       if ( face->face->glyph->format != FT_GLYPH_FORMAT_BITMAP )
       {
          error = FT_Render_Glyph( face->face->glyph, FT_RENDER_MODE_MONO );
-         if (error)
+         if (error) {
+            COPY( "[FdQueryCharAttr] Failed to render glyph bitmap!! Error code was " ); CATI( error );
+            CAT("\r\n"); WRITE;
             ERET1(Fail); /* engine error */
+         }
          COPY( "[FdQueryCharAttr] Glyph bitmap generated successfully.\r\n" ); WRITE;
       }
 
@@ -4135,6 +4167,7 @@ ULONG  FinalTerm(void)
 
    /* clean up the combined-fonts alias list if necessary */
    if ( pszCmbAliases ) FREE( pszCmbAliases );
+   if ( pszCfgFontFiles ) FREE( pszCfgFontFiles );
 
    /* turn off engine */
    FT_Done_FreeType(library);
@@ -4375,6 +4408,8 @@ static  char*  LookupName(FT_Face face,  int index )
    int    best;
 
 
+   COPY("[LookupName]  - requested name id "); CATI( index ); CAT("\r\n"); WRITE;
+
    n = FT_Get_Sfnt_Name_Count( face );
    if ( n < 0 )
       return NULL;
@@ -4436,7 +4471,7 @@ static  char*  LookupName(FT_Face face,  int index )
    if ( found != -1 )
    {
       FT_Get_Sfnt_Name( face, found, &name );
-#if 0
+#if 1
       COPY("[LookupName]  - using name index "); CATI( found );
       CAT(" = platform/encoding: ");             CATI( name.platform_id );
       CAT("/");                                  CATI( name.encoding_id );

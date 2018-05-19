@@ -1,9 +1,9 @@
 
                         * * *   FreeType/2   * * *
 
-                      (Version 1.3.4, 18 July 2013)
+                      (Version 1.3.5, 11 March 2018)
 
- Copyright (C) 2010--2013 Alexander Taylor <alex@altsan.org>
+ Copyright (C) 2010--2018 Alexander Taylor <alex@altsan.org>
  Copyright (C) 2002--2007 KO Myung-Hun <komh@chollian.net>
  Copyright (C) 2003--2004 Seo, Hyun-Tae <acrab001@hitel.net>
  Copyright (C) 1997--2000 Michal Necasek <mike@mendelu.cz>
@@ -217,6 +217,16 @@ A8: Short answer: They should (hopefully) display correctly as long as you are
 
 
 - History of version 1.3
+
+  - v1.35 ( 2018-03-11 )
+    .Some of the Hangul system fonts included with OS/2 Korean are broken in
+     that they report their names and cmaps as Unicode, but actually use Wansung
+     and PMKOR. Since this situation can't really be detected heuristically, an
+     internal blacklist of known offenders (currently the five TTFs included in
+     Warp 4-K) has been added.  This means FREETYPE.DLL should hopefully now
+     work properly with the default Warp 4 Korean fonts.
+    .Configuration GUI now includes Spanish translation, courtesy of Alfredo
+     Fern ndez D¡az.
 
   - v1.34 ( 2013-07-18 )
     .When the Style_Fixup feature was enabled, fonts with the subfamily name

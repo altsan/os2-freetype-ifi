@@ -63,6 +63,7 @@
 #define ID_BASE_RU                  10700       // Russian
 #define ID_BASE_NL                  13100       // Dutch
 #define ID_BASE_FR                  13300       // French
+#define ID_BASE_ES                  13400       // Spanish
 #define ID_BASE_IT                  13900       // Italian
 #define ID_BASE_SV                  14600       // Swedish
 #define ID_BASE_DE                  14900       // German

@@ -1,9 +1,11 @@
 # NMAKE32/IBM CPP (VisualAge) Makefile for FTCONFIG
 #
 
-# Language code for the helpfile - change for your language as needed
-#
-NLV    = en
+# Language code for the helpfile
+!ifndef NLV
+    NLV = en
+!endif
+
 
 # These should not need to be changed
 #

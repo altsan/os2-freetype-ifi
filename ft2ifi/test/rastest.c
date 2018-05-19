@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <uconv.h>
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -24,10 +23,10 @@
 FT_Bool CopyBitmap( char *pSource, char *pTarget,
                     unsigned long rows, unsigned long s_pitch, unsigned long t_pitch )
 {
-    ULONG row, col, ofs;
+    unsigned long row, col, ofs;
 
     if (( pSource && !pTarget ) || ( t_pitch < s_pitch ))
-        return FALSE;
+        return 0;
     ofs = 0;
     for ( row = 0; row < rows; row++ ) {
         for ( col = 0; col < s_pitch; col++ ) {
@@ -35,7 +34,7 @@ FT_Bool CopyBitmap( char *pSource, char *pTarget,
         }
         for ( ; col < t_pitch; col++ ) pTarget[ ofs++ ] = 0;
     }
-    return TRUE;
+    return 1;
 }
 
 
@@ -75,9 +74,9 @@ int main ( int argc, char *argv[] )
     }
     printf("Font %s read successfully.\n", face->family_name );
 
-    error = FT_Set_Char_Size( face, 0, 144*64, 120, 120 );
+    error = FT_Set_Char_Size( face, 0, 12*64, 120, 120 );
     if ( error ) goto done;
-    gindex = FT_Get_Char_Index( face, (unsigned long)'e' );
+    gindex = FT_Get_Char_Index( face, (unsigned long)'a' );
     error = FT_Load_Glyph( face, gindex, FT_LOAD_NO_BITMAP );
     if ( error ) goto done;
     error = FT_Render_Glyph( face->glyph, FT_RENDER_MODE_MONO );
@@ -88,14 +87,14 @@ int main ( int argc, char *argv[] )
 
     cols  = face->glyph->bitmap.pitch;
     pBitmap = (char*)face->glyph->bitmap.buffer;
-/*
+
     // width rounded up to nearest multiple of 4 bytes
     cols  = ((width + 31) / 8) & -4;
     pBitmap = (char *) calloc( rows*cols, sizeof(char) );
     if ( !pBitmap || !CopyBitmap( face->glyph->bitmap.buffer, pBitmap,
                                   rows, face->glyph->bitmap.pitch, cols ))
         goto done;
-*/
+
     printf("Showing character %u\n", gindex );
     printf("Character bitmap has %u rows of %u bytes.\n", rows, cols);
 
