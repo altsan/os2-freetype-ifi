@@ -110,7 +110,7 @@ naming conventions to the four most common font "styles"&colon. Normal, Bold,
 Italic (or Oblique), and Bold Italic (or Bold Oblique).  FreeType/2 uses
 fairly intelligent logic when adjusting the font names; however, it is
 possible that this setting might result in the occasional misnamed font or
-or style.  Enabling this setting is only recommended if you are encountering
+style.  Enabling this setting is only recommended if you are encountering
 malformed text when printing under OpenOffice.
 :dt.Create simulated bold face for DBCS fonts
 :dd.This setting causes FreeType/2 to create a "fake" bold version (via
