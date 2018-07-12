@@ -20,7 +20,7 @@
 #  /DBGPACK  pack debug info
 
 # uncomment ICCR and LNKR to build a release version
-ICCR=-O+ -G4 -DDEBUG
+ICCR=-O+ -G4
 LNKR=/PACKC /PACKD /M /A:32 /E:2
 # uncomment FAKEBOLD to build a Fake Bold Support version.
 # uncomment ICCD and LNKD to build a debug version. Note that debug and

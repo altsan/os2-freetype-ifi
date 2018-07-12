@@ -52,7 +52,7 @@ BEGIN
     (ID_BASE_EN + IDS_CTL_FACENAMEALIAS)        "Alias TrueType ""Times New Roman"" to ""TmsRmn"""
     (ID_BASE_EN + IDS_CTL_ADVANCED_SETTINGS)    "Advanced Settings"
     (ID_BASE_EN + IDS_CTL_TXTCACHE)             "Open face cache size:"
-    (ID_BASE_EN + IDS_CTL_TXTRESOLUTION)        "Points per inch:"
+    (ID_BASE_EN + IDS_CTL_TXTRESOLUTION)        "Instance resolution:"
     (ID_BASE_EN + IDS_CTL_TXTFONTS)             "fonts"
     (ID_BASE_EN + IDS_CTL_TXTDPI)               "dpi"
     (ID_BASE_EN + IDS_CTL_TXTVERSION)           "Version %s"
@@ -105,7 +105,7 @@ BEGIN
     (ID_BASE_ES + IDS_CTL_FAKEBOLD)             "Crear negrita simulada para las fuentes DBCS"
     (ID_BASE_ES + IDS_CTL_STYLEFIX)             "Ajustar nombres de estilo est ndar"
     (ID_BASE_ES + IDS_CTL_NETSCAPEFIX)          "Optimizar m‚trica de glifos para Netscape"
-    (ID_BASE_ES + IDS_CTL_FACENAMEALIAS)        "Utilizar ""TmsRmn"" como alias de ""Times New Roman"" TrueType"
+    (ID_BASE_ES + IDS_CTL_FACENAMEALIAS)        "Utilizar ®TmsRmn¯ como alias de ®Times New Roman¯ TrueType"
     (ID_BASE_ES + IDS_CTL_ADVANCED_SETTINGS)    "Opciones avanzadas"
     (ID_BASE_ES + IDS_CTL_TXTCACHE)             "Tama¤o del cach‚ de fuentes abiertas:"
     (ID_BASE_ES + IDS_CTL_TXTRESOLUTION)        "Resoluci¢n del texto:"
@@ -154,23 +154,27 @@ BEGIN
     (ID_BASE_JA + IDS_CTL_CURRENT_DRIVER)       "‘I‘ð‚³‚ê‚½ TrueType ‚ÌƒtƒHƒ“ƒgEƒhƒ‰ƒCƒo[:"
     (ID_BASE_JA + IDS_CTL_UNICODE_SETTINGS)     "Unicode Ý’è"
     (ID_BASE_JA + IDS_CTL_FORCEUNICODE)         "‚Å‚«‚ê‚Î Unicode ‚ð‚¢‚Â‚àŽg‚¤"
-    (ID_BASE_JA + IDS_CTL_FORCEMBCS)            "í‚ÉUnicodeƒtƒHƒ“ƒg‚ðMBCSŒÝŠ·‚É‚·‚é"
+    (ID_BASE_JA + IDS_CTL_FORCEMBCS)            "Always report Unicode fonts as MBCS-compatible"
     (ID_BASE_JA + IDS_CTL_EXCEPTASSOC)          "ŠÖ˜A•t‚¯‚ÌƒtƒHƒ“ƒg‚Ìê‡ DBCS ‚Ì•¶Žš•„†‰»–@‚ðŽg‚¤"
     (ID_BASE_JA + IDS_CTL_EXCEPTCMB)            "ABR ƒtƒHƒ“ƒg‚Ìê‡ DBCS ‚Ì•¶Žš•„†‰»–@‚ðŽg‚¤"
     (ID_BASE_JA + IDS_CTL_OPTIONAL_FEATURES)    "—v”Û‚ÈŠÂ‹«Ý’è"
     (ID_BASE_JA + IDS_CTL_FAKEBOLD)             "DBCS ƒtƒHƒ“ƒg‚Ìê‡ƒtƒFƒCƒNEƒ{|ƒ‹ƒh‚ðì‚èo‚·"
-    (ID_BASE_JA + IDS_CTL_STYLEFIX)             "Šµ—p‚ÌƒXƒ^ƒCƒ‹–¼‚Ì•â³"
+    (ID_BASE_JA + IDS_CTL_STYLEFIX)             "Fix standard style names"
     (ID_BASE_JA + IDS_CTL_NETSCAPEFIX)          "Netscape ‚Ì‚½‚ß‚ÉƒtƒHƒ“ƒgEƒƒbƒgƒŠƒbƒN‚ð•ÏX‚·‚é"
     (ID_BASE_JA + IDS_CTL_FACENAMEALIAS)        "TrueType ‚ÌuTimes New Romanv‚ÉuTmsRmnv‚ÌˆÙ–¼‚ð•\‚·"
     (ID_BASE_JA + IDS_CTL_ADVANCED_SETTINGS)    "ƒAƒhƒoƒ“ƒXƒhÝ’è"
     (ID_BASE_JA + IDS_CTL_TXTCACHE)             "ƒtƒF[ƒXEƒLƒƒƒbƒVƒ…EƒTƒCƒYF"
-    (ID_BASE_JA + IDS_CTL_TXTRESOLUTION)        "ƒ|ƒCƒ“ƒg^ƒCƒ“ƒ`F"
+    (ID_BASE_JA + IDS_CTL_TXTRESOLUTION)        "‰ð‘œ“xF"
     (ID_BASE_JA + IDS_CTL_TXTFONTS)             "ƒtƒHƒ“ƒg"
     (ID_BASE_JA + IDS_CTL_TXTDPI)               "dpi"
     (ID_BASE_JA + IDS_CTL_TXTVERSION)           "ƒ”ƒ@[ƒWƒ‡ƒ“ %s"
     (ID_BASE_JA + IDS_CTL_TXTCOPYRIGHT)         "%s Alex Taylor"
 END
 
+
+/***************************************************
+ * Changes below this point should not be necessary.
+ */
 
 HELPTABLE ID_MAINPROGRAM
 BEGIN

@@ -36,13 +36,13 @@ To translate FTCONFIG.EXE:
 
 
 To translate FTCONFIG.HLP:
- a. Edit Makefile.nlv and change the NLV= definition near the top to a suitable
-    value for your language.
- b. Copy ftconfig_en.ipf to ftconfig_xx.ipf (where xx is the new value for NLV,
-    above).
- c. Translate the text in ftconfig_xx.ipf to your satisfaction.
- d. Run:
-      nmake32 -f Makefile.nlv ftconfig.hlp
+ a. Copy ftconfig_en.ipf to ftconfig_xx.ipf (where xx is the two-letter language
+    code for the new language.)
+ b. Translate the text in ftconfig_xx.ipf to your satisfaction.
+ c. Run:
+      nmake32 -f Makefile.nlv ftconfig.hlp NLV=xx
+    where xx is the language code, as above.  You can omit the NLV=xx parameter
+    by setting the environment variable NLV=xx from the shell (or CONFIG.SYS).
     If you get error messages, you may have to specify the -C, -D and/or -L
     switches (see the IPFC documentation).
 

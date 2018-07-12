@@ -3,7 +3,7 @@
 .* ****************************************************************************
 :h1 x=left y=bottom width=100% height=100% res=100.Configuraci¢n de FreeType/2
 :p.Esta interfaz gr fica de usuario le permite configurar, activar o desactivar
-el controlador de fuentes para Presentation Manager FreeType/2 (FREETYPE.DLL).
+el controlador FreeType/2 de fuentes para Presentation Manager (FREETYPE.DLL).
 
 :p.Los cambios realizados con este programa requieren reiniciar el sistema para
 tener efecto.
@@ -49,25 +49,25 @@ funciones nativas (GPI). Sin embargo, tambi‚n tiene algunas desventajas
 potenciales&colon.
 :ul.
 :li.Puede afectar al rendimiento bajo algunas circunstancias, al menos si
-se utiliza en combinaci¢n con "Mostrar fuentes Unicode como compatibles con
-MBCS" (ver m s abajo).
+se utiliza en combinaci¢n con ®Mostrar fuentes Unicode como compatibles con
+MBCS¯ (ver m s abajo).
 :li.Evita que ninguna fuente compatible con Unicode se pueda utilizar como
-fuente &osq.de asociaci¢n&csq. DBCS, :hp2.a no ser que:ehp2. "Utilizar DBCS en
-vez de Unicode para fuente de asociaci¢n" (ver m s abajo) est‚ activa tambi‚n.
+fuente &osq.de asociaci¢n&csq. DBCS, :hp2.a no ser que:ehp2. ®Utilizar DBCS en
+vez de Unicode para fuente de asociaci¢n¯ (ver m s abajo) est‚ activa tambi‚n.
 :eul.
 
 :dt.Utilizar DBCS en vez de Unicode para fuente de asociaci¢n
 :dd.Si esta opci¢n est  activa, a cualquier fuente que se encuentre definida
-como fuente PM "de asociaci¢n" (utilizada para sustituci¢n de glifos DBCS) se
+como fuente PM ®de asociaci¢n¯ (utilizada para sustituci¢n de glifos DBCS) se
 le asociar  siempre una lista nativa de glifos DBCS (chinos, japoneses o
 coreanos) en vez de Unicode. Puesto que la asociaci¢n falla habitualmente
 cuando se utiliza una fuente Unicode, esta opci¢n permite utilizar para la
-asociaci¢n fuentes compatibles con Unicode incluso si la opci¢n "Utilizar
-siempre Unicode" est  activa.
+asociaci¢n fuentes compatibles con Unicode incluso si la opci¢n ®Utilizar
+siempre Unicode¯ est  activa.
 :p.Por omisi¢n, esta opci¢n se encuentra activa; raramente habr  motivo (si lo
 hay alguna vez) para desactivarla.
 :nt.Aunque esta opci¢n lo haga posible, deber¡a evitarse el uso de fuentes
-pan-Unicode como "Times New Roman MT 30" o "Arial Unicode MS" como fuente de
+pan-Unicode como ®Times New Roman MT 30¯ o ®Arial Unicode MS¯ como fuente de
 asociaci¢n. Como se dar  a la fuente de asociaci¢n una codificaci¢n CJK
 espec¡fica del idioma, no se podr n utilizar los caracteres de la fuente no
 soportados por esa codificaci¢n concreta.:ent.
@@ -83,14 +83,14 @@ tengan disponible una imagen, se utilizar  el archivo original de la fuente.
 Sin embargo, esta caracter¡stica no funciona correctamente en algunos casos si
 la fuente redirigida utiliza la codificaci¢n Unicode.
 :p.Si esta opci¢n est  activa, a cada fuente TrueType redirigida a una fuente
-combinada (seg£n se define en OS2.INI en la aplicaci¢n "PM_ABRFiles") se
+combinada (seg£n se define en OS2.INI en la aplicaci¢n ®PM_ABRFiles¯) se
 asignar  siempre una lista de glifos DBCS nativa (china, japonesa o coreana) en
 vez de Unicode.
 :p.Por omisi¢n, esta opci¢n esta activa.
 
 :dt.Mostrar fuentes Unicode como compatibles con MBCS
 :dd.Si esta opci¢n est  activa, cualquier fuente presentada como Unicode se
-mostrar  como "compatible con MBCS". independientemente de cu ntos glifos
+mostrar  como ®compatible con MBCS¯. independientemente de cu ntos glifos
 contenga.
 :p.La compatibilidad MBCS indica que la fuente contiene soporte extendido de
 caracteres; normalmente se recomienda, puesto que de otro modo muchos
@@ -113,7 +113,7 @@ adicionales de FreeType/2.
 :dl break=all.
 :dt.Ajustar nombres de estilo est ndar
 :dd.Cuando esta opci¢n est  activa, FreeType/2 intenta aplicar las convenciones
-de nomenclatura est ndar a los cuatro "estilos" m s comunes de fuente&colon.
+de nomenclatura est ndar a los cuatro ®estilos¯ m s comunes de fuente&colon.
 normal, negrita, cursiva (o it lica), y negrita cursiva (o cursiva negrita).
 FreeType/2 utiliza una l¢gica bastante inteligente para ajustar los nombres de
 fuente; sin embargo, es posible que esta opci¢n d‚ como resultado
@@ -121,7 +121,7 @@ ocasionalmente fuentes o estilos con un nombre incorrecto. S¢lo se recomienda
 activar esta opci¢n si encuentra texto malformado al imprimir desde OpenOffice.
 
 :dt.Crear negrita simulada para fuentes DBCS
-:dd.Esta opci¢n hace que FreeType/2 cree una versi¢n negrita "falsa" (por
+:dd.Esta opci¢n hace que FreeType/2 cree una versi¢n negrita ®falsa¯ (por
 simulaci¢n) de cualquier fuente TrueType DBCS que no incluya una verdadera
 versi¢n en negrita.
 
@@ -132,20 +132,20 @@ algunos problemas en el posicionamiento de caracteres en versiones antiguas
 del navegador Netscape. En general no se recomienda activar esta opci¢n a no
 ser que utilice Netscape con frecuencia.
 
-:dt.Utilizar "TmsRmn" como alias de "Times New Roman" TrueType
+:dt.Utilizar ®TmsRmn¯ como alias de ®Times New Roman¯ TrueType
 :dd.Normalmente, el Presentation Manager autom ticamente asigna el alias
-"TmsRmn" a la fuente tipo 1 "Times New Roman" (incluida con OS/2). Esto
+®TmsRmn¯ a la fuente tipo 1 ®Times New Roman¯ (incluida con OS/2). Esto
 significa que, al utilizar la fuente de caracteres representados por im genes
-llamada "TmsRmn", se utiliza la fuente tipo 1 para representar cualquier texto
+llamada ®TmsRmn¯, se utiliza la fuente tipo 1 para representar cualquier texto
 en tama¤os distintos de los 8, 10, 12, 14 y 24 puntos.
 :p.Activar esta opci¢n hace que FreeType/2 cree un alias equivalente utilizando
-la versi¢n TrueType de "Times New Roman" si est  instalada. Esto permite que se
+la versi¢n TrueType de ®Times New Roman¯ si est  instalada. Esto permite que se
 utilice la fuente TrueType para generar el texto en los tama¤os adicionales si
 se desinstala la fuente tipo 1.
 
 :nt.S¢lo se recomienda utilizar esta opci¢n si se desinstala la versi¢n
-tipo 1 de "Times New Roman" y adem s se instala la versi¢n TrueType (que
-se encuentra disponible como parte del paquete "Core Fonts" de Microsoft).:ent.
+tipo 1 de ®Times New Roman¯ y adem s se instala la versi¢n TrueType (que
+se encuentra disponible como parte del paquete ®Core Fonts¯ de Microsoft).:ent.
 
 :edl.
 :edl.
