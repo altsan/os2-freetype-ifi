@@ -61,6 +61,62 @@ END
 
 
 /********************
+ * GERMAN MESSAGES
+ */
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_DE + IDS_PROGRAM_TITLE)            "FreeType/2-Konfiguration"
+    (ID_BASE_DE + IDS_PAGE_DRIVER)              "~Treiber"
+    (ID_BASE_DE + IDS_PAGE_SETTINGS)            "Ein~stellungen"
+    (ID_BASE_DE + IDS_PAGE_ABOUT)               "ö~ber"
+    (ID_BASE_DE + IDS_PAGE_1OF2)                "Seite 1 von 2"
+    (ID_BASE_DE + IDS_PAGE_2OF2)                "Seite 2 von 2"
+    (ID_BASE_DE + IDS_TRUETYPEDLL_DESC)         "TRUETYPE.DLL (IBM TrueType IFI)"
+    (ID_BASE_DE + IDS_FREETYPEDLL_DESC)         "FREETYPE.DLL (FreeType IFI)"
+    (ID_BASE_DE + IDS_MESSAGE_REBOOT)           "énderungen werden erst wirksam, wenn das System neu gestartet wurde."
+END
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_DE + IDS_ERRT_GEN)                 "Fehler"
+    (ID_BASE_DE + IDS_ERROR_NOTEBOOK)           "Fehler beim BefÅllen des Notebooks. Das Programm kann nicht fortgesetzt werden."
+    (ID_BASE_DE + IDS_ERRT_NOTFOUND)            "FREETYPE.DLL wurde nicht gefunden!"
+    (ID_BASE_DE + IDS_ERROR_NOTFOUND)           "%s wurde nicht gefunden. Mîchten Sie einen anderen Pfad angeben?"
+END
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_DE + IDS_BTN_OK)                   "~OK"
+    (ID_BASE_DE + IDS_BTN_CANCEL)               "~Abbrechen"
+    (ID_BASE_DE + IDS_BTN_HELP)                 "~Hilfe"
+    (ID_BASE_DE + IDS_BTN_RESET)                "~RÅckgÑngig"
+END
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_DE + IDS_CTL_CURRENT_DRIVER)       "Aktueller TrueType-Schriftartentreiber:"
+    (ID_BASE_DE + IDS_CTL_UNICODE_SETTINGS)     "Unicode-Einstellungen"
+    (ID_BASE_DE + IDS_CTL_FORCEUNICODE)         "Wenn mîglich immer Unicode-Kodierung verwenden"
+    (ID_BASE_DE + IDS_CTL_FORCEMBCS)            "Unicode-Schriften immer als MBCS-kompatibel ausweisen"
+    (ID_BASE_DE + IDS_CTL_EXCEPTASSOC)          "DBCS anstelle von Unicode fÅr Zuordnungsschriften verwenden"
+    (ID_BASE_DE + IDS_CTL_EXCEPTCMB)            "Verwenden von DBCS anstelle von Unicode fÅr kombinierte Schriften"
+    (ID_BASE_DE + IDS_CTL_OPTIONAL_FEATURES)    "Optionale Merkmale"
+    (ID_BASE_DE + IDS_CTL_FAKEBOLD)             "Simulierte fette Schrift fÅr DBCS-Schriften erstellen"
+    (ID_BASE_DE + IDS_CTL_STYLEFIX)             "Fixierung von Standardstilnamen"
+    (ID_BASE_DE + IDS_CTL_NETSCAPEFIX)          "Optimierung der Glyphenmetriken fÅr Netscape"
+    (ID_BASE_DE + IDS_CTL_FACENAMEALIAS)        "Alias TrueType ""Times New Roman"" nach ""TmsRmn"""
+    (ID_BASE_DE + IDS_CTL_ADVANCED_SETTINGS)    "Erweiterte Einstellungen"
+    (ID_BASE_DE + IDS_CTL_TXTCACHE)             "Grî·e des Face-Cache:"
+    (ID_BASE_DE + IDS_CTL_TXTRESOLUTION)        "Instanzauflîsung:"
+    (ID_BASE_DE + IDS_CTL_TXTFONTS)             "Schriften"
+    (ID_BASE_DE + IDS_CTL_TXTDPI)               "dpi"
+    (ID_BASE_DE + IDS_CTL_TXTVERSION)           "Version %s"
+    (ID_BASE_DE + IDS_CTL_TXTCOPYRIGHT)         "%s Alex Taylor"
+END
+
+
+/********************
  * SPANISH MESSAGES
  */
 
