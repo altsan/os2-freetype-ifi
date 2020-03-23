@@ -35,16 +35,19 @@ To translate FTCONFIG.EXE:
        in this file are for reference only and are not actually used.
 
 
-To translate FTCONFIG.HLP:
+To translate FTCONFxx.HLP:
  a. Copy ftconfig_en.ipf to ftconfig_xx.ipf (where xx is the two-letter language
     code for the new language.)
  b. Translate the text in ftconfig_xx.ipf to your satisfaction.
- c. Run:
-      nmake32 -f Makefile.nlv ftconfig.hlp NLV=xx
-    where xx is the language code, as above.  You can omit the NLV=xx parameter
-    by setting the environment variable NLV=xx from the shell (or CONFIG.SYS).
-    If you get error messages, you may have to specify the -C, -D and/or -L
-    switches (see the IPFC documentation).
+ c. Edit Makefile and create a new target under the 'translated help files' 
+    section as follows (do not indent the first line):
+	ftconfXX.hlp: $(NAME)_XX.ipf
+        	        $(IPFC) $< $@
+    replacing 'XX' with the two-letter language code.
+ d. Run:
+      nmake32 -f Makefile.nlv ftconfxx.hlp
+    where xx is the language code, as above.  If you get error messages, you may
+    have to specify the -C, -D and/or -L switches (see the IPFC documentation).
 
 In both cases, please send your translated source files to alex@altsan.org so 
 that they can be included with the FTCONFIG source code.
