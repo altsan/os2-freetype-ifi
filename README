@@ -1,14 +1,14 @@
 FREETYPE/2-IFI
 Intelligent Font Interface Driver for OS/2 Presentation Manager 
 
-(C) 2010-2013 Alexander Taylor
+(C) 2010-2020 Alexander Taylor
 (C) 2002-2007 KO Myung-Hun 
 (C) 2003-2004 Seo, Hyun-Tae 
 (C) 1997-2000 Michal Necasek 
 
 and
 
-(C) 1997-2013 The FreeType Project
+(C) 1997-2014 The FreeType Project
 
 
 FreeType/2-IFI is an OS/2 Presentation Manager font driver that provides

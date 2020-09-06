@@ -12,8 +12,9 @@ int main( int argc, char *argv[] )
     QMSG      qmsg;                         // message queue
     HELPINIT  helpInit;                     // help init structure
     SWP       wp;                           // window position
-    CHAR      szRes[ US_RES_MAXZ ],         // buffers for string resources
-              szError[ US_RES_MAXZ ];
+    CHAR      szRes[ US_RES_MAXZ ],         // buffer for string resources
+              szHelp[ US_HELP_MAXZ ],       // buffer for help file name
+              szError[ US_RES_MAXZ ];       // buffer for error message
     BOOL      fInitFailure = FALSE;
 
 //    memset( &global, 0, sizeof( FTCGLOBAL ));
@@ -56,6 +57,7 @@ int main( int argc, char *argv[] )
     } else {
 
         // Initialize online help
+        SetHelpFile( global.iLangID, szHelp );
         if ( ! WinLoadString( hab, 0, global.iLangID + IDS_PROGRAM_TITLE, US_RES_MAXZ-1, szRes ))
             sprintf( szRes, "Help");
 
@@ -68,7 +70,7 @@ int main( int argc, char *argv[] )
         helpInit.idAccelTable             = 0;
         helpInit.idActionBar              = 0;
         helpInit.pszHelpWindowTitle       = szRes;
-        helpInit.pszHelpLibraryName       = HELP_FILE;
+        helpInit.pszHelpLibraryName       = szHelp;
 
         hwndHelp = WinCreateHelpInstance( hab, &helpInit );
         WinAssociateHelpInstance( hwndHelp, hwndFrame );
@@ -1120,6 +1122,49 @@ ULONG SetLanguage( HMQ hmq )
 
 
 /* ------------------------------------------------------------------------- *
+ * SetHelpFile                                                               *
+ *                                                                           *
+ * Determine the correct help file name for the active languge.  This will   *
+ * "ftconfig.hlp" (HELP_FILE) for English; for other languages, the "ig" is  *
+ * replaced by the two-letter language code, but only if that file exists.   *
+ *                                                                           *
+ * ARGUMENTS:                                                                *
+ *   ULONG ulID   : The language ID as returned by SetLanguage           (I) *
+ *   PSZ   achHelp: Buffer for help file name, must be >= US_HELP_MAXZ   (O) *
+ *                                                                           *
+ * RETURNS: N/A                                                              *
+ * ------------------------------------------------------------------------- */
+void SetHelpFile( ULONG ulID, PSZ achHelp )
+{
+    UCHAR  achFound[ CCHMAXPATH ] = {0};
+    ULONG  flSearch = SEARCH_IGNORENETERRS | SEARCH_ENVIRONMENT | SEARCH_CUR_DIRECTORY;
+    APIRET rc;
+
+    strncpy( achHelp, HELP_FILE, US_HELP_MAXZ-1 );
+    switch ( ulID ) {
+        case ID_BASE_RU: achHelp[6] = 'r'; achHelp[7] = 'u'; break;
+        case ID_BASE_NL: achHelp[6] = 'n'; achHelp[7] = 'l'; break;
+        case ID_BASE_FR: achHelp[6] = 'f'; achHelp[7] = 'r'; break;
+        case ID_BASE_ES: achHelp[6] = 'e'; achHelp[7] = 's'; break;
+        case ID_BASE_IT: achHelp[6] = 'i'; achHelp[7] = 't'; break;
+        case ID_BASE_SV: achHelp[6] = 's'; achHelp[7] = 'v'; break;
+        case ID_BASE_DE: achHelp[6] = 'd'; achHelp[7] = 'e'; break;
+        case ID_BASE_JA: achHelp[6] = 'j'; achHelp[7] = 'a'; break;
+        case ID_BASE_KO: achHelp[6] = 'k'; achHelp[7] = 'o'; break;
+        case ID_BASE_CN: achHelp[6] = 'c'; achHelp[7] = 'n'; break;
+        case ID_BASE_TW: achHelp[6] = 't'; achHelp[7] = 'w'; break;
+        default:         return;     // includes EN
+    }
+
+    rc = DosSearchPath( flSearch, "HELP", achHelp, achFound, sizeof( achFound ));
+    if ( rc != NO_ERROR ) {
+        // Couldn't find that help file, revert to English
+        achHelp[6] = 'i'; achHelp[7] = 'g';
+    }
+}
+
+
+/* ------------------------------------------------------------------------- *
  * CheckFTDLL                                                                *
  *                                                                           *
  * Make sure that FREETYPE.DLL exists in the expected location.  If it does  *
@@ -1237,7 +1282,6 @@ BOOL GetBldLevel( PSZ pszFile, PBLDLEVEL pInfo )
     ULONG ulRead = 0,
           ulRC;
     PSZ   psz, tok;
-    USHORT c;
 
     if ( !pszFile || !pInfo ) return FALSE;
 

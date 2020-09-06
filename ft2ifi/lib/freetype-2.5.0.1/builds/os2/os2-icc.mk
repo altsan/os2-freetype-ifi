@@ -1,5 +1,5 @@
 #
-# FreeType 2 configuration rules for the OS/2 + VisualAge C++
+# FreeType 2 configuration rules for the OS/2 + VisualAge/IBM C Compiler
 #
 
 
@@ -16,7 +16,7 @@
 # include OS/2-specific definitions
 include $(TOP_DIR)/builds/os2/os2-def.mk
 
-# include gcc-specific definitions
+# include icc-specific definitions
 include $(TOP_DIR)/builds/compiler/visualage.mk
 
 # include linking instructions

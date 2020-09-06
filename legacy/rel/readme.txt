@@ -1,7 +1,7 @@
 
                         * * *   FreeType/2   * * *
 
-                      (Version 1.3.5, 11 March 2018)
+                      (Version 1.3.6, 23 March 2020)
 
  Copyright (C) 2010--2018 Alexander Taylor <alex@altsan.org>
  Copyright (C) 2002--2007 KO Myung-Hun <komh@chollian.net>
@@ -217,6 +217,10 @@ A8: Short answer: They should (hopefully) display correctly as long as you are
 
 
 - History of version 1.3
+
+  - v1.36 ( 2020-03-20 )
+    .Fixed a couple of bugs in DBCS font name lookup. 
+    .Configuration GUI help is now NLS-aware.
 
   - v1.35 ( 2018-03-11 )
     .Some of the Hangul system fonts included with OS/2 Korean are broken in

@@ -15,10 +15,11 @@
 // ----------------------------------------------------------------------------
 // CONSTANTS
 
+// For non-EN languages, 'ig' will be overwritten by 2-letter lang code:
 #define HELP_FILE               "ftconfig.hlp"
 
-#define SZ_VERSION              "1.06"
-#define SZ_COPYRIGHT            "(C) 2010-2018"
+#define SZ_VERSION              "1.07"
+#define SZ_COPYRIGHT            "(C) 2010-2020"
 
 // Default settings values
 #define US_CACHE_MIN            8       // minimum value for font face cache
@@ -28,6 +29,7 @@
 // Buffer limits
 #define US_RES_MAXZ             256     // string resource buffer size
 #define US_DLL_MAXZ             13      // DLL name length (8.3 + null)
+#define US_HELP_MAXZ            13      // Help file name length (8.3 + null)
 #define US_BLSIG_MAXZ           256     // BLDLEVEL signature buffer size
 
 // Profile (INI) file entries
@@ -129,6 +131,7 @@ MRESULT EXPENTRY AboutPageProc( HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2 );
 void             ReadSettings( HWND hwnd );
 void             WriteSettings( HWND hwnd, PFTCGLOBAL pGlobal );
 ULONG            SetLanguage( HMQ hmq );
+void             SetHelpFile( ULONG ulID, PSZ achHelp );
 BOOL             CheckFTDLL( PFTCGLOBAL pGlobal );
 void             UpdateVersionDisplay( HWND hwnd, PFTCGLOBAL pGlobal );
 BOOL             GetBldLevel( PSZ pszFile, PBLDLEVEL pInfo );

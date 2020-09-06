@@ -1,11 +1,6 @@
 # NMAKE32/IBM CPP (VisualAge) Makefile for FTCONFIG
 #
 
-# Language code for the helpfile
-!ifndef NLV
-    NLV = en
-!endif
-
 
 # These should not need to be changed
 #
@@ -15,15 +10,25 @@ RFLAGS = -x -n
 NAME   = ftconfig
 MRI    = resource
 
-nlv         : $(NAME).exe $(NAME).hlp $(MRI).res
+nlv         : $(NAME).exe $(MRI).res
                 $(RC) $(RFLAGS) $(MRI).res $(NAME).exe
 
-$(MRI).res  : $(MRI).rc $(MRI).dlg $(MRI).h ft2gui.ico ftsplash.bmp
+$(MRI).res  : $(MRI).rc $(MRI).dlg $(MRI).h ft2gui.ico ftifi.bmp
                 $(RC) -r -n $(MRI).rc $@
 
-$(NAME).hlp: $(NAME)_$(NLV).ipf
-                $(IPFC) $(NAME)_$(NLV).ipf $@
+$(NAME).hlp: $(NAME)_en.ipf
+                $(IPFC) $< $@
+
+
+# Translated help file targets.
+#
+
+ftconfde.hlp: $(NAME)_de.ipf
+                $(IPFC) $< $@
+
+ftconfes.hlp: $(NAME)_es.ipf
+                $(IPFC) $< $@
 
 clean       :
-                -del $(MRI).res $(NAME).hlp >NUL
+                -del $(MRI).res *.hlp >NUL
 

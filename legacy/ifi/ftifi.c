@@ -3979,6 +3979,8 @@ void    my_itoa(int num, char *cp) {
 /* GetUdcInfo determines the UDC ranges used                                */
 /*                                                                          */
 VOID    GetUdcInfo(VOID) {
+    ULONG   i;
+#if 0
     ULONG   ulUdc, ulUdcInfo, i;
     PVOID   gPtr;
     HINI    hini;
@@ -3990,9 +3992,11 @@ VOID    GetUdcInfo(VOID) {
         USHORT  usEnd;
     } USUDCRANGE;
     USUDCRANGE *pUdcTemp;
+#endif
+
+    DosQueryCp(sizeof(ulCp), (ULONG*)&ulCp, &i);  /* find out default codepage */
 
 #if 0
-    DosQueryCp(sizeof(ulCp), (ULONG*)&ulCp, &i);  /* find out default codepage */
     my_itoa((INT) ulCp, szCpStr + 2);             /* convert to ASCII          */
 
     DosQuerySysInfo(QSV_BOOT_DRIVE, QSV_BOOT_DRIVE, &i, sizeof(ULONG));
@@ -4330,7 +4334,7 @@ static BOOL CheckDBCSEnc( PCH name, int len )
 {
     int i;
     for ( i = 0; i < len; i++ ) {
-        if ( name[i] == 0xFF || (i < len-1 && name[i] == 0 ))
+        if ( name[i] == 0xFF ) // || (i < len-1 && name[i] == 0 ))
             return FALSE;
     }
     return TRUE;
@@ -4547,6 +4551,9 @@ static  char*  LookupName(TT_Face face,  int index )
     * encoding that matches the system codepage is found, OR a symbol encoding
     * is found, select it and return a copy of the string (verbatim).
     */
+   COPY("Unicode name not found!  Looking for native-language name.");
+   CAT("\r\n"); WRITE;
+
    for ( i = 0; found == -1 && i < n; i++ )
    {
       TT_Get_Name_ID( face, i, &platform, &encoding, &language, &id );
@@ -4601,10 +4608,13 @@ static  char*  LookupName(TT_Face face,  int index )
       /* Quick check to make sure it's not actually a mis-identified Unicode
        * string (workaround for RF Gothic etc.)
        */
-#if 1
       if ( !CheckDBCSEnc( string, string_len ))
       {
           TT_Get_Name_ID( face, found, &platform, &encoding, &language, &id );
+
+          COPY(" --> \"");
+          CAT( string );
+          CAT("\" actually seems to be a Unicode name."); CAT("\r\n"); WRITE;
 
           switch ( language ) {
               case TT_MS_LANGID_KOREAN_EXTENDED_WANSUNG_KOREA :
@@ -4650,8 +4660,14 @@ static  char*  LookupName(TT_Face face,  int index )
           }
       }
 #endif
-#endif
 
+      COPY(" --> Using name \"");
+      CAT( string );
+      CAT("\"\r\n"); WRITE;
+
+      /* Some of these fonts put extra 0s between each byte value, so we
+       * allow for that.
+       */
       for (i=0, j=0; ( i<string_len ) && ( j < LONGFACESIZE - 1 ); i++)
          if (string[i] != '\0')
             name_buffer[j++] = string[i];
@@ -4661,6 +4677,8 @@ static  char*  LookupName(TT_Face face,  int index )
 
       return name_buffer;
    }
+
+   COPY("No usable names found!"); CAT("\r\n");
 
    /* Not found */
    return NULL;
