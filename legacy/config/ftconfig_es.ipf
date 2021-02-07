@@ -164,9 +164,21 @@ ser que sea completamente consciente de las consecuencias de cambiarlas.
 s¢lo mantiene en memoria a la vez las :hp1.n:ehp1. £ltimas utilizadas.
 Esta opci¢n le permite modificar el valor :hp1.n:ehp1..
 :dt.Resoluci¢n del texto:
-:dd.Le permite ignorar la resoluci¢n (en puntos por pulgada) utilizada por
-omisi¢n para representar caracteres en pantalla. Los £nicos valores aceptables
-son 72, 96 y 120. 72 ppp es el valor por omisi¢n.
+:dd.Le permite cambiar c¢mo define internamente el controlador de fuentes
+los ®puntos¯ al establecer el tama¤o del texto. El valor por omisi¢n es el
+est ndar en la industria de 72 puntos por pulgada.
+:p.En general, esta opci¢n :hp2.no:ehp2. deber¡a cambiarse. Si lo hace, tenga
+en mente las siguientes consideraciones importantes:
+:ul.
+:li.Qu‚ constituye una ®pulgada¯ se define mediante la opci¢n de v¡deo de
+puntos por pulgada (DPI: dots per inch). Dependiendo del tama¤o y resoluci¢n de
+su pantalla, esto puede no corresponder exactamente a una pulgada en t‚rminos
+f¡sicos de longitud.
+:li.Esta opci¢n no puede alterar el espacio que el Presentation Manager asigna
+en pantalla a cada car cter. Por tanto, aumentar este valor puede hacer que los
+caracteres aparezcan amontonados al dibujarse.
+:eul.
+:p.Los £nicos valores aceptables son 72, 96 y 120.
 :edl.
 :edl.
 
