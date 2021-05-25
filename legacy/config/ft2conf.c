@@ -12,9 +12,9 @@ int main( int argc, char *argv[] )
     QMSG      qmsg;                         // message queue
     HELPINIT  helpInit;                     // help init structure
     SWP       wp;                           // window position
-    CHAR      szRes[ US_RES_MAXZ ],         // buffer for string resources
-              szHelp[ US_HELP_MAXZ ],       // buffer for help file name
-              szError[ US_RES_MAXZ ];       // buffer for error message
+    CHAR      szRes[ US_RES_MAXZ ]   = {0}, // buffer for string resources
+              szHelp[ US_HELP_MAXZ ] = {0}, // buffer for help file name
+              szError[ US_RES_MAXZ ] = {0}; // buffer for error message
     BOOL      fInitFailure = FALSE;
 
 //    memset( &global, 0, sizeof( FTCGLOBAL ));
@@ -1141,6 +1141,8 @@ void SetHelpFile( ULONG ulID, PSZ achHelp )
     APIRET rc;
 
     strncpy( achHelp, HELP_FILE, US_HELP_MAXZ-1 );
+    achHelp[12] = '\0';
+
     switch ( ulID ) {
         case ID_BASE_RU: achHelp[6] = 'r'; achHelp[7] = 'u'; break;
         case ID_BASE_NL: achHelp[6] = 'n'; achHelp[7] = 'l'; break;

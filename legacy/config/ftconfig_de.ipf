@@ -2,33 +2,34 @@
 
 .* ****************************************************************************
 :h1 x=left y=bottom width=100% height=100% res=100.FreeType/2-Konfiguration
-:p.Mit dieser grafischen Benutzeroberfl„che k”nnen Sie den FreeType/2-
-Fonttreiber fr den Presentation Manager (FREETYPE.DLL) konfigurieren,
-aktivieren oder deaktivieren.
+:p.Diese Anwendung erm”glicht die Konfiguration, des
+FreeType/2-Schriftartentreibers fr Presentation Manager (FREETYPE.DLL).
+Ebenso kann der FreeType/2-Schriftartentreibers hiermit auch
+aktiviert oder inaktiviert werden.
 
-:p.Alle in diesem Programm vorgenommenen nderungen erfordern einen Neustart
-des Systems, um wirksam zu werden.
+:p.Alle in diesem Programm vorgenommenen nderungen erfordern einen
+Systemneustart, um wirksam zu werden.
 
 
 .* ----------------------------------------------------------------------------
 :h2 x=left y=bottom width=100% height=100% res=110.Treiber
-:p.Die :hp2.Treiber:ehp2.-Seite erm”glicht, FreeType/2 zu aktivieren oder
-zu deaktivieren.
+:p.Auf der Seite :hp2.Treiber:ehp2. k”nnen Sie FreeType/2 aktivieren
+oder inaktivieren.
 
-:p.Wenn FreeType/2 deaktiviert ist, drfen keine weiteren Seiten des
-Konfigurationsnotizbuches aufgerufen werden.
+:p.Wenn FreeType/2 inaktiviert ist, kann auf keine der anderen Seiten des
+Konfigurations-Notizblocks zugegriffen werden.
 
 :dl break=all.
 :dt.:hp2.Aktueller TrueType-Schriftartentreiber:ehp2.
-:dd.Dieses Kombinationsfeld zeigt den aktuell aktiven Fonttreiber an,
-und erm”glicht es ihn zu „ndern.
+:dd.Dieses Kombinationsfeld zeigt den derzeit aktiven Schriftartentreiber an.
+Auáerdem k”nnen Sie diesen hier anpassen.
 :dl compact tsize=16.
 :dt.FREETYPE.DLL
-:dd.Der FreeType/2-Schriftartentreiber. Wenn Sie dieses Element ausw„hlen,
+:dd.Der FreeType/2-Schriftartentreiber.  Wenn Sie diesen Punkt ausw„hlen,
 wird FreeType/2 aktiviert.
 :dt.TRUETYPE.DLL
-:dd.Der originale TrueType-Schriftartentreiber von IBM. Wenn Sie dieses Element
-ausw„hlen, wird FreeType/2 deaktiviert.
+:dd.Der ursprngliche TrueType-Schriftentreiber von IBM. Wenn Sie diesen Punkt
+ausw„hlen, wird FreeType/2 inaktiviert.
 :edl.
 :edl.
 
@@ -39,116 +40,123 @@ ausw„hlen, wird FreeType/2 deaktiviert.
 :dl break=all.
 :dt.:hp2.Unicode-Einstellungen:ehp2.
 :dd.Diese Einstellungen steuern, wie Unicode-kompatible Schriften ihre
-Kodierungen an das System gemeldet bekommen.
+Kodierungen an das System melden.
 :dl break=all.
-:dt.Verwenden Sie immer Unicode-Kodierung, falls vorhanden.
-:dd.Wenn diese Einstellung aktiviert ist, meldet FreeType/2 immer Unicode-f„hige
-Schriften als solche, anstatt zu versuchen, automatisch die optimale Kodierung
-auszuw„hlen. (Dies gilt vorbehaltlich der Ausnahmen, die durch die folgenden
-beiden Einstellungen angezeigt werden, sofern sie aktiviert sind.)
-:p.Dies erm”glicht im Allgemeinen die Untersttzung einer gr”áeren Anzahl
-an Zeichen, und erm”glicht die Verwendung dieser Schriften fr die Darstellung
-von Unicode-Text mit nativen (GPI)-Funktionen. Dies birgt jedoch auch einige
-potenzielle Nachteile&colon.
+:dt.Immer Unicode-Kodierung verwenden, falls verfgbar
+:dd.Wenn diese Einstellung aktiviert ist, meldet FreeType/2 Unicode-f„hige
+Schriften immer als solche, anstatt zu versuchen, automatisch die optimale
+Kodierung auszuw„hlen.
+Dies gilt vorbehaltlich der Ausnahmen, die durch die folgenden beiden
+Einstellungen angezeigt werden, sofern sie aktiviert sind.
+:p.Dadurch kann im Allgemeinen eine gr”áere Bandbreite an Zeichen untersttzt
+werden, und diese Schriftarten k”nnen fr die Darstellung von Unicode-Text
+unter Verwendung nativer (GPI) Funktionen verwendet werden.
+Es hat jedoch auch einige potenzielle Nachteile&colon.
 :ul.
-:li.Unter bestimmten Umst„nden kann dies die Leistung beeintr„chtigen,
-zumindest in Kombination mit "Unicode-Schriften immer als
-MBCS-kompatibel melden" (siehe unten).
-Dadurch wird verhindert, daá jede Unicode-kompatible Schriftart fr die
-DBCS-&osq.Zuordnungs&csq.schriftart verwendet werden kann,
-:hp2.es sei denn:ehp2., "DBCS statt Unicode fr Zuordnungsschrift verwenden"
-(siehe unten) ist ebenfalls aktiviert.
+:li.Diese Einstellung kann unter Umst„nden die Leistung beeintr„chtigen,
+zumindest wenn sie in Kombination mit "Unicode-Schriften immer als
+MBCS-kompatibel melden" (siehe unten) verwendet wird.
+:li.Diese Einstellung verhindert auáerdem, daá jede Unicode-kompatible
+Schriftart fr die Schriftart DBCS-&osq.Zuordnung&csq. verwendet werden kann,
+:hp2.auáer:ehp2. die Einstellung "DBCS anstelle von Unicode fr
+Assoziationsschriftart verwenden" (siehe unten) ist ebenfalls aktiviert.
 :eul.
 
-:dt.Verwenden von DBCS anstelle von Unicode fr Zuordnungsschriften
-:dd.Wenn diese Einstellung aktiviert ist, wird der Schriftart, die derzeit als
-PM "association"-Schriftart (verwendet fr die DBCS-Glyphenersetzung)
-definiert ist, anstelle von Unicode immer eine native DBCS-Glyphenliste
-(Chinesisch, Japanisch oder Koreanisch) zugewiesen. Da die Zuordnung bei der
-Verwendung einer Unicodeschriftart normalerweise fehlschl„gt, k”nnen mit dieser
-Einstellung Unicode-kompatible Schriftarten fr die Zuordnung verwendet werden,
-auch wenn die Einstellung "Immer Unicode verwenden" aktiv ist.
-:p.Diese Einstellung ist standardm„áig auf aktiv gesetzt; es sollte selten
+:dt.Verwenden von DBCS anstatt Unicode fr Assoziationsschriftart
+:dd.Wenn diese Einstellung aktiviert ist, wird jeder Schriftart, die derzeit
+als PM-"Assoziations"-Schriftart (die fr die DBCS-Glyphenersetzung verwendet
+wird) definiert ist, immer eine native DBCS-Glyphenliste (Chinesisch,
+Japanisch oder Koreanisch) anstelle von Unicode zugewiesen.
+Da die Assoziation normalerweise fehlschl„gt, wenn eine Unicode-Schriftart
+verwendet wird, erm”glicht diese Einstellung die Verwendung von
+Unicode-kompatiblen Schriften fr die Assoziation, auch wenn die Einstellung
+"Immer Unicode verwenden" aktiv ist.
+:p.Diese Einstellung ist standardm„áig aktiv; Es sollte selten
 (wenn berhaupt) einen Grund geben, sie zu deaktivieren.
-:nt.Auch wenn diese Einstellung es erm”glicht, sollten Sie Pan-Unicode-Fonts
-wie "Times New Roman MT 30" oder "Arial Unicode MS" nicht als
-Assoziationsschrift verwenden. Da die Zuordnungsschriftart eine
-sprachspezifische CJK-Kodierung erh„lt, sind Zeichen aus der Schrift, die von
-dieser speziellen Kodierung nicht untersttzt werden, nicht verwendbar.:ent.
+:nt.Auch wenn diese Einstellung dies erm”glicht, sollten Sie die Verwendung
+von Pan-Unicode-Schriften wie "Times New Roman MT 30" oder "Arial Unicode MS"
+als Assoziationsschriftart vermeiden.
+Da die Assoziationsschrift eine sprachspezifische CJK-Kodierung erh„lt,
+sind alle Zeichen der Schriftart, die von dieser speziellen Kodierung nicht
+untersttzt werden, nicht verwendbar.:ent.
 
-:dt.Verwenden Sie DBCS anstelle von Unicode fr kombinierte Schriften.
-:dd.Die DBCS-Versionen (chinesische, japanische und koreanische) von OS/2
-enthalten eine Funktion, mit der Schriften an eine Art virtuellen
-Schriftwrapper weitergeleitet werden k”nnen, der als &osq.kombinierter&osq.
-Font bezeichnet wird. (Diese haben die Erweiterung .CMB und befinden sich
-normalerweise im Verzeichnis \OS2\SYSDATA.) Die kombinierte Schrift erlaubt es,
-Glyphen als Bitmaps (aus einer separaten Datei geladen) in bestimmten
-Punktgr”áen darzustellen; fr Glyphen oder Punktgr”áen, bei denen keine Bitmap
-verfgbar ist, wird die Originalschriftdatei verwendet.
-Diese Funktion funktioniert jedoch in einigen F„llen nicht richtig, wenn die
-weiterzuleitende Schriftart die Unicode-Kodierung verwendet.
-
-:p.Wenn diese Einstellung aktiviert ist, wird jedem TrueType-Font, der derzeit
-an einen kombinierten Font (wie in OS2.INI unter der Anwendung "PM_ABRFiles"
-definiert) weitergeleitet wird, immer eine native DBCS-Glyphliste
-(Chinesisch, Japanisch oder Koreanisch) anstelle von Unicode zugewiesen.
+:dt.DBCS anstelle von Unicode fr kombinierte Schriften verwenden
+:dd.Die DBCS-Versionen (Chinesisch, Japanisch und Koreanisch) von OS/2
+enthalten eine Funktion, mit der Schriften an eine Art virtuellen,
+&osq.kombinierten&osq. Schriftart-Umsetzer weitergeleitet werden k”nnen.
+Diese haben die Erweiterung .CMB und befinden sich normalerweise im
+Verzeichnis \OS2\SYSDATA.
+Die kombinierte Schriftart erm”glicht die Darstellung von Glyphen als Bitmap
+(aus einer separaten Datei geladen) in bestimmten Punktgr”áen;
+Fr Glyphen oder Punktgr”áen, fr die keine Bitmap verfgbar ist, wird die
+Originalschriftartdatei verwendet.
+Diese Funktion funktioniert jedoch in einigen F„llen nicht richtig,
+wenn die weitergeleitete Schrift die Unicode-Kodierung verwendet.
+:p.Wenn diese Einstellung aktiviert ist, wird jeder TrueType-Schriftart,
+die derzeit an eine kombinierte Schriftart (wie in OS2.INI unter der Anwendung
+"PM_ABRFiles" definiert) weitergeleitet wird, immer eine native
+DBCS-Glyphenliste (Chinesisch, Japanisch oder Koreanisch) anstelle von
+Unicode zugewiesen.
 :p.Diese Einstellung ist standardm„áig aktiviert.
 
-:dt.Unicode-Schriften immer als MBCS-kompatibel ausweisen
+:dt.Unicode-Schriften immer als MBCS-kompatibel melden
 :dd.Wenn diese Einstellung aktiviert ist, wird jede Schrift, die als Unicode
-gemeldet wird, auch als "MBCS-kompatibel" gemeldet, unabh„ngig davon,
-wie viele Glyphen sie enth„lt.
-:p.Die MBCS-Kompatibilit„t zeigt an, dass die Schriftart erweiterte
+gemeldet wird, auch als "MBCS-kompatibel" gemeldet, unabh„ngig davon, wie
+viele Glyphen sie enth„lt.
+:p.Die MBCS-Kompatibilit„t zeigt an, daá die Schriftart eine erweiterte
 Zeichenuntersttzung enth„lt; Sie wird normalerweise empfohlen, da sonst viele
-Grafikzeichen unbrauchbar werden. Es gibt jedoch einige potenzielle Nachteile
-bei der Aktivierung dieser Einstellung&colon.
+Grafikzeichen unbrauchbar werden. Es gibt jedoch einige potenzielle Nachteile,
+wenn diese Einstellung aktivieren ist&colon.
 :ul.
-:li.Die Leistung der Textwiedergabe kann bei Unicode-Fonts etwas geringer sein.
-:li.Wenn die DBCS-Zuordnungsfunktion aktiviert ist, k”nnen Glyphen nicht durch
-Text ersetzt werden, der mit einer Unicode-Font gerendert wurde.
-Diese Einschr„nkung ist vor allem fr Benutzer mit chinesischen, japanischen
-oder koreanischen Versionen von OS/2 von Interesse.)
-:eul.
+:li.Die Leistung der Textwiedergabe kann bei Unicode-Schriften
+etwas langsamer sein.
+:li.Wenn die DBCS-Assoziationsfunktion aktiviert ist, k”nnen Glyphen nicht in
+Text ersetzt werden, der mit einer beliebigen Unicode-Schriftart
+gerendert wird.
+Diese Einschr„nkung ist vor allem fr Anwender interessant, die chinesische,
+japanische oder koreanische Versionen von OS/2 verwenden.:eul.
 :edl.
 
 :dt.:hp2.Optionale Merkmale:ehp2.
-:dd.Mit diesen Einstellungen k”nnen Sie verschiedene optionale Funktionen von
-FreeType/2 aktivieren oder deaktivieren.
+:dd.Mit diesen Einstellungen k”nnen Sie verschiedene optionale
+Funktionen von FreeType/2 aktivieren oder inaktivieren.
 :dl break=all.
-:dt.Fixierung von Standardstilnamen
+:dt.Standard-Stilnamen festlegen
 :dd.Wenn diese Einstellung aktiviert ist, versucht FreeType/2, standardisierte
-Namenskonventionen auf die vier g„ngigsten Schriftarten-"Styles"
-anzuwenden&colon. Normal, fett, kursiv (oder schr„g) und fett kursiv (oder
-fett schr„g). FreeType/2 verwendet eine ziemlich intelligente Logik bei der
-Anpassung der Schriftartennamen. Es ist jedoch m”glich, daá diese Einstellung
-zu einer gelegentlichen Fehlbenennung der Schriftart oder des Stils fhren kann.
-Die Aktivierung dieser Einstellung wird nur empfohlen, wenn beim Drucken unter
-OpenOffice Fehlinformationen auftreten.
-:dt.Erstellen von simulierten fetten Schrifts„tzen fr DBCS-Schriften
-:dd.Diese Einstellung bewirkt, dass FreeType/2 eine "gef„lschte" fette Version
-(mittels Simulation) eines beliebigen DBCS TrueType-Fontes erstellt, der keine
-tats„chliche fette Version enth„lt.
-:dt.Optimierung der Glyphenmetriken fr Netscape
-:dd.Diese Einstellung bewirkt, dass die Metriken (die Zeichendimensionen und
-Positionsdaten) aller TrueType-Schriften angepasst werden, um einige Probleme
-bei der Zeichenpositionierung unter alten Versionen des Netscape-Webbrowsers
-zu umgehen. Wenn Sie Netscape nicht regelm„áig verwenden, wird die Aktivierung
-dieser Einstellung nicht generell empfohlen.
-:dt.Alias TrueType "Times New Roman" nach "TmsRmn".
-:dd.Normalerweise bertr„gt der Presentation Manager automatisch den
-Schrifttyp 1 "Times New Roman" (im Lieferumfang von OS/2 enthalten) auf
-"TmsRmn". Das bedeutet, daá bei Verwendung der Bitmap-Schriftart "TmsRmn"
-die Schriftart Typ 1 verwendet wird, um jeden Text in anderen Punktgr”áen
-als 8, 10, 12, 14, 18 oder 24 darzustellen.
-:p.Wenn Sie diese Einstellung aktivieren, erstellt FreeType/2 einen
-gleichwertigen Alias mit der TrueType-Version von "Times New Roman",
-falls diese installiert ist. Dadurch kann die TrueType-Schriftart verwendet
-werden, um die zus„tzlichen Punktgr”áen darzustellen, wenn Sie die
-Type 1-Schriftart deinstallieren.
-:nt.Die Verwendung dieser Einstellung wird nur empfohlen, wenn Sie beide, die
-Typ-1-Version von "Times New Roman", :hp1.und:ehp1.die TrueType-Version, die
-als Teil des Microsoft-Pakets "Core Fonts" frei verfgbar ist,
-deinstallieren.:ent.
+Namenskonventionen auf die vier gebr„uchlichsten Schrift-"Stile"
+anzuwenden&colon. Normal, Fett, Kursiv (oder Schr„g), sowie Fett Kursiv
+(oder Fett Schr„g).
+FreeType/2 verwendet eine ziemlich intelligente Logik bei der Anpassung der
+Schriftnamen; Es ist jedoch m”glich, daá diese Einstellung gelegentlich zu
+einer falsch benannten Schrift oder einem falsch benannten Stil fhrt.
+Die Aktivierung dieser Einstellung wird nur empfohlen, wenn Sie beim Drucken
+unter OpenOffice auf fehlerhaften Text stoáen.
+:dt.Erstellen einer simulierten Fettschrift fr DBCS-Schriften
+:dd.Diese Einstellung bewirkt, daá FreeType/2 von jeder
+DBCS-TrueType-Schriftart, die keine echte Fettdruckversion enth„lt,
+eine "simulierte" Fettdruckversion erzeugt.
+:dt.Optimieren der Glyphenmetrik fr Netscape
+:dd.Diese Einstellung bewirkt, daá die Metriken (die Zeichenabmessungen und
+Positionierungsdaten) aller TrueType-Schriften angepaát werden, um einige
+Probleme bei der Zeichenpositionierung unter alten Versionen des
+Netscape-Webbrowsers zu umgehen.
+Sofern Sie nicht regelm„áig Netscape verwenden, wird die Aktivierung dieser
+Einstellung im Allgemeinen nicht empfohlen.
+:dt.Alias TrueType "Times New Roman" bis "TmsRmn"
+:dd.Normalerweise aliasiert der Presentation Manager die Type 1-Schriftart
+"Times New Roman" (in OS/2 enthalten) automatisch zu "TmsRmn".
+Das bedeutet, daá bei Verwendung der Bitmap-Schriftart "TmsRmn" die
+Type 1-Schriftart verwendet wird, um jeden Text in anderen Punktgr”áen
+als 8, 10, 12, 14, 18 oder 24 zu rendern.
+:p.Die Aktivierung dieser Einstellung bewirkt, daá FreeType/2 einen
+„quivalenten Alias unter Verwendung der TrueType-Version von "Times New Roman"
+erstellt, falls diese installiert ist.
+Dadurch kann die TrueType-Schriftart zum Rendern der zus„tzlichen Punktgr”áen
+verwendet werden, wenn Sie die Type 1-Schriftart deinstallieren.
+:nt.Die Verwendung dieser Einstellung wird nur empfohlen, wenn Sie sowohl die
+Type 1-Version von "Times New Roman" deinstallieren, :hp1.und:ehp1. auch die
+TrueType-Version (die als Teil des Microsoft-Pakets "Core Fonts"
+frei verfgbar ist) installieren.:ent.
 :edl.
 :edl.
 
@@ -158,19 +166,33 @@ deinstallieren.:ent.
 :p.Diese Seite enth„lt verschiedene erweiterte Einstellungen.
 :dl break=all.
 :dt.:hp2.Erweiterte Einstellungen:ehp2.
-:dd.Normalerweise sollte es nicht notwendig sein, eine dieser Einstellungen zu
-„ndern. Es wird dringend empfohlen, sie auf ihren Standardwerten zu belassen,
-es sei denn, Sie sind sich der Folgen einer solchen nderung bewusst.
+:dd.Normalerweise sollte es nicht notwendig sein, eine dieser Einstellungen
+zu „ndern. Es wird dringend empfohlen, sie auf ihren Standardwerten
+zu belassen, es sei denn, Sie sind sich der Konsequenzen einer nderung
+voll bewuát.
 :dl break=all.
-:dt.Gr”áe des Open Face Caches
-:dd.Anstatt alle Schriften des Systems beim Start zu laden, h„lt FreeType/2 nur
-die :hp1.n:ehp1. krzlich-genutzten Schriftarten im Speicher ge”ffnet.
-Diese Einstellung erm”glicht es Ihnen diesen :hp1.n:ehp1.-Wert anzupassen.
-:dt.Instanzaufl”sung
-:dd.Dies erm”glicht es Ihnen, die standardm„áige Ger„teaufl”sung zu
-berschreiben, die fr die Skalierung von Glyphen auf dem Bildschirm verwendet
-wird (in Punkten pro Zoll). Die einzigen zul„ssigen Werte sind 72, 96 und 120.
-72 dpi ist die Voreinstellung.
+:dt.Schriftarten-Cache-Gr”áe
+:dd.Anstatt alle Schriftarten beim Systemstart zu laden, bel„át FreeType/2 nur
+die :hp1.n:ehp1. zuletzt verwendeten Schriftarten im Speicher.
+Mit dieser Einstellung k”nnen Sie den Wert von :hp1.n:ehp1. „ndern.
+:dt.Aufl”sung der Instanz
+:dd.Hiermit kann angepaát werden, wie der Schriftartentreiber bei der
+Einstellung der Schriftgr”áe intern einen 'Punkt' definiert.
+Der Standardwert ist der Industriestandard von 72 Punkten pro Zoll.
+:p.Diese Einstellung sollte generell :hp2.nicht:ehp2. ge„ndert werden.
+Wenn Sie sie „ndern, sollten Sie diese wichtigen Punkte im Auge behalten&colon.
+:ul.
+:li.Was ein "Zoll" auf dem Bildschirm ausmacht, wird durch Ihre
+Video-DPI-Einstellung definiert, d.h. entweder 96 oder 120 Pixel.
+Abh„ngig von der Gr”áe und Aufl”sung Ihres Bildschirms entspricht dies
+m”glicherweise nicht genau einem Zoll in physischer Hinsicht.
+:li.Diese Einstellung kann die Menge des Bildschirmplatzes, die der
+Presentation Manager jedem Zeichen zuweist, nicht ver„ndern.
+Daher kann eine Erh”hung dieses Wertes dazu fhren, daá Zeichen beim
+Zeichnen abgeschnitten erscheinen.
+:eul.
+:p.Die einzigen sinnvollen Werte fr diese Einstellung sind 72, 96 und 120.
+
 :edl.
 :edl.
 
