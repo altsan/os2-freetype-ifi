@@ -17,7 +17,8 @@ MRI    = resource
 # as they become available.
 HELPS  = $(NAME).hlp     \
             ftconfde.hlp \
-            ftconfes.hlp
+            ftconfes.hlp \
+            ftconfru.hlp
 
 MD_AUTHOR  = "Alex Taylor"
 MD_DESC    = "FreeType/2 v1.3x configuration GUI"
@@ -47,6 +48,9 @@ ftconfde.hlp: $(NAME)_de.ipf
 
 ftconfes.hlp: $(NAME)_es.ipf
                 $(IPFC) $< $@
+
+ftconfru.hlp: $(NAME)_ru.ipf
+                $(IPFC) -D:007 -C:866 $< $@
 
 clean       :
                 -del $(OBJS) $(MRI).res $(NAME).exe $(HELPS) >NUL

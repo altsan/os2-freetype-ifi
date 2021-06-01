@@ -1,7 +1,6 @@
 # NMAKE32/IBM CPP (VisualAge) Makefile for FTCONFIG
 #
 
-
 # These should not need to be changed
 #
 RC     = rc.exe
@@ -28,6 +27,9 @@ ftconfde.hlp: $(NAME)_de.ipf
 
 ftconfes.hlp: $(NAME)_es.ipf
                 $(IPFC) $< $@
+
+ftconfru.hlp: $(NAME)_ru.ipf
+                $(IPFC) -D:007 -C:866 $< $@
 
 clean       :
                 -del $(MRI).res *.hlp >NUL

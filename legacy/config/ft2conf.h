@@ -18,8 +18,8 @@
 // For non-EN languages, 'ig' will be overwritten by 2-letter lang code:
 #define HELP_FILE               "ftconfig.hlp"
 
-#define SZ_VERSION              "1.07"
-#define SZ_COPYRIGHT            "(C) 2010-2020"
+#define SZ_VERSION              "1.08"
+#define SZ_COPYRIGHT            "(C) 2010-2021"
 
 // Default settings values
 #define US_CACHE_MIN            8       // minimum value for font face cache

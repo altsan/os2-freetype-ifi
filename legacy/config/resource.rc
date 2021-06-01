@@ -61,6 +61,61 @@ END
 
 
 /********************
+ * RUSSIAN MESSAGES
+ */
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_RU + IDS_PROGRAM_TITLE)            "Конфигурация FreeType/2"
+    (ID_BASE_RU + IDS_PAGE_DRIVER)              "~Драйвер"
+    (ID_BASE_RU + IDS_PAGE_SETTINGS)            "~Настройки"
+    (ID_BASE_RU + IDS_PAGE_ABOUT)               "~О программе"
+    (ID_BASE_RU + IDS_PAGE_1OF2)                "Страница 1 из 2"
+    (ID_BASE_RU + IDS_PAGE_2OF2)                "Страница 2 из 2"
+    (ID_BASE_RU + IDS_TRUETYPEDLL_DESC)         "TRUETYPE.DLL (IBM TrueType IFI)"
+    (ID_BASE_RU + IDS_FREETYPEDLL_DESC)         "FREETYPE.DLL (FreeType IFI)"
+    (ID_BASE_RU + IDS_MESSAGE_REBOOT)           "Изменения не вступят в силу, пока система не будет выключена и перезагружена."
+END
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_RU + IDS_ERRT_GEN)                 "Ошибка"
+    (ID_BASE_RU + IDS_ERROR_NOTEBOOK)           "Ошибка при заполнении блокнота. Программа не может продолжить выполнение."
+    (ID_BASE_RU + IDS_ERRT_NOTFOUND)            "FREETYPE.DLL не найден"
+    (ID_BASE_RU + IDS_ERROR_NOTFOUND)           "%s не найден. Вы хотите указать другой путь?"
+END
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_RU + IDS_BTN_OK)                   "~ОК"
+    (ID_BASE_RU + IDS_BTN_CANCEL)               "О~тменить"
+    (ID_BASE_RU + IDS_BTN_HELP)                 "~Справка"
+    (ID_BASE_RU + IDS_BTN_RESET)                "От~катить"
+END
+
+STRINGTABLE
+BEGIN
+    (ID_BASE_RU + IDS_CTL_CURRENT_DRIVER)       "Текущий драйвер шрифта TrueType:"
+    (ID_BASE_RU + IDS_CTL_UNICODE_SETTINGS)     "Настройки Юникода"
+    (ID_BASE_RU + IDS_CTL_FORCEUNICODE)         "Всегда использовать Юникод, если доступно"
+    (ID_BASE_RU + IDS_CTL_FORCEMBCS)            "Всегда сообщать о шрифтах Юникод как о совместимых с MBCS"
+    (ID_BASE_RU + IDS_CTL_EXCEPTASSOC)          "Использовать DBCS вместо Юникод для ассоциированного шрифта"
+    (ID_BASE_RU + IDS_CTL_EXCEPTCMB)            "Использовать DBCS вместо Юникод для комбинированных шрифтов"
+    (ID_BASE_RU + IDS_CTL_OPTIONAL_FEATURES)    "Дополнительные возможности"
+    (ID_BASE_RU + IDS_CTL_FAKEBOLD)             "Создать условный набор bold для шрифтов DBCS"
+    (ID_BASE_RU + IDS_CTL_STYLEFIX)             "Исправлять стандартные имена стилей"
+    (ID_BASE_RU + IDS_CTL_NETSCAPEFIX)          "Оптимизация метрики глифов для Netscape"
+    (ID_BASE_RU + IDS_CTL_FACENAMEALIAS)        "Псевдоним TrueType ""Times New Roman"" на ""TmsRmn"""
+    (ID_BASE_RU + IDS_CTL_ADVANCED_SETTINGS)    "Расширенные настройки"
+    (ID_BASE_RU + IDS_CTL_TXTCACHE)             "Размер кэша открытого набора:"
+    (ID_BASE_RU + IDS_CTL_TXTRESOLUTION)        "Разрешение экземпляра:"
+    (ID_BASE_RU + IDS_CTL_TXTFONTS)             "шрифтов"
+    (ID_BASE_RU + IDS_CTL_TXTDPI)               "dpi"
+    (ID_BASE_RU + IDS_CTL_TXTVERSION)           "Версия %s"
+    (ID_BASE_RU + IDS_CTL_TXTCOPYRIGHT)         "%s Alex Taylor"
+END
+
+/********************
  * GERMAN MESSAGES
  */
 
