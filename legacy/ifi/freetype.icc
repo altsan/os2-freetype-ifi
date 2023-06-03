@@ -32,7 +32,7 @@ FTPATH=..\lib
 
 MD_AUTHOR  = "Necasek/Seo/KO/Taylor et al"
 MD_DESC    = "FreeType/2 installable font interface driver"
-MD_VERSION = "1.3.6"
+MD_VERSION = "1.3.7"
 
 FreeType.dll:       $*.obj $*.def $(FTPATH)\libttf.lib
    makedesc -D$(MD_DESC) -N$(MD_AUTHOR) -V$(MD_VERSION) $*.def

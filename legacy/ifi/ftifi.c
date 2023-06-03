@@ -10,7 +10,7 @@
 /*       Copyright (C) 1997, 1998 David Turner <dturner@cybercable.fr>     */
 /*       Copyright (C) 1997, 1999 International Business Machines          */
 /*                                                                         */
-/*       Version: 1.3.4                                                    */
+/*       Version: 1.3.7                                                    */
 /*                                                                         */
 /* This source is to be compiled with IBM VisualAge C++ 3.0.               */
 /* Other compilers may actually work too but don't forget this is NOT a    */
@@ -426,6 +426,9 @@ static BOOL fStyleFix = 0;
 
 /* instance dpi */
 static int instance_dpi = 72;
+
+/* default nominal point size */
+static long lNominalPtSize = 12;
 
 /* number of processes using the font driver; used by the init/term */
 /* routine                                                          */
@@ -2144,6 +2147,7 @@ LONG _System QueryFaces( HFF          hff,
 
           PFontFile            file;
           LONG                 index, faceIndex, ifiCount = 0;
+          LONG                 cyScreen;
           ULONG                range1, range2;
           USHORT               fsTrunc;
           SHORT                name_len;
@@ -2555,9 +2559,12 @@ LONG _System QueryFaces( HFF          hff,
       ifi.giLastChar          = MAX_GLYPH;
       ifi.giDefaultChar       = 0;
       ifi.giBreakChar         = 32;
-      ifi.usNominalPointSize  = 120;   /*    these are simply constants       */
-      ifi.usMinimumPointSize  = 10;
+
+      /* Point size metrics are constant for all fonts */
+      ifi.usNominalPointSize  = lNominalPtSize * 10;
+      ifi.usMinimumPointSize  = 10;    /* minimum supported size (1pt)          */
       ifi.usMaximumPointSize  = 10000; /* limit to 1000 pt (like the ATM fonts) */
+
 #if 0
       /* Set the LICENSED flag for Restricted, P&P or Editable licenses */
       ifi.fsType              = (pOS2->fsType & 0xE) ? IFIMETRICS_LICENSED : 0;
@@ -3938,6 +3945,12 @@ static  void LimitsInit(void) {
                                       "DPI", 72 );
    if (( instance_dpi != 72 ) && ( instance_dpi != 96 ) && ( instance_dpi != 120 ))
       instance_dpi = 72;
+
+   /* Get the nominal font size (0 means use built-in default of 12) */
+   lNominalPtSize = PrfQueryProfileInt( HINI_USERPROFILE, "FreeType/2",
+                                        "Nominal_Size", 12 );
+   if (( lNominalPtSize < 6 ) || ( lNominalPtSize > 64 ))
+       lNominalPtSize = 12;
 
    /* See if there's a DBCS association font in use */
    PrfQueryProfileString(HINI_USERPROFILE, "PM_SystemFonts", "PM_AssociateFont",

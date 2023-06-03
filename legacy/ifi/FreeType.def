@@ -7,4 +7,4 @@ DATA SINGLE SHARED READWRITE LOADONCALL
 ;DATA MULTIPLE NONSHARED READWRITE LOADONCALL
 CODE LOADONCALL
 
-DESCRIPTION '@#Necasek/Seo/KO/Taylor et al:1.3.6#@##1## 20 Mar 2020 18:39:35     reinforce::::::@@FreeType/2 installable font interface driver'
+DESCRIPTION '@#Necasek/Seo/KO/Taylor et al:1.3.7#@##1## 31 May 2023 19:09:51     VM-ArcaOS5::::::@@FreeType/2 installable font interface driver'
